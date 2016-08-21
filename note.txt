@@ -1,0 +1,20 @@
+1/ slidy vzdy ve stejnem poradi
+2/ hlavni menu: artworks(PROJECTS), news(NEWS), profile(PROFILE), workshop(PRESS)=PROJECTS, contact + fb ikona (kod workshop stejny jak artworks)
+3/ vlneni tri carek ikony menu zrusit, prechod na krizek zachovat, treba jako zde: http://maaemo.no/
+4/ v galerii u konkretni polozky - nad prvni fotkou scroll - stejne jak ve slidu, pri scrollovani zmizi
+5/ v galerii u konkretni polozky - ikonka navratu mezi sipkami - nahradit statickym krizkem + sipky taky staticke, zmena na sedou pri najeti
+6/ hlavni panel - vpravo nahore ikonku search zrusit - zda tam neco davat jeste ujasnime
+7/ news - u konkretni polozky jen jedno foto, slider zrusit
+8/ nadpisy, sven kraus ve slideru a hlavnim panelu a nazvy v galerii - Unica One, mala pismena
+    vsechny vlastni texty, scroll, popisky pod linkou v galerii - Josefin Sans
+9/ jazykove verze EN a CZ jen v profile a news, umisteni talcitek v news stejne jak v profile
+10/ administrace - artworks, workshop, news
+11/ mail pod gmailem, adresa mail@sven-kra.us
+12/uvodni efekt s pismeny na hp - zrusit ... prilis charakteristicky, pokud je mozne, vybereme jiny...
+
+Klaus Peter Brinkmann
+Wachenheimer Str. 1
+81539 MÜNCHEN
+GERMNANY
+
+cel +49 (0) 152 5680 1942
