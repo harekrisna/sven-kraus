@@ -2550,6 +2550,40 @@ textarea.focus,
 .from-index #top{
 	top:-60px}
 
+/*-Text animation-*/
+
+#top #text-anime {
+	position: absolute;
+	width: 90%;
+	margin-left: -45%;
+	top: 51%;
+	left: 50%;
+	z-index: 1; 
+	visibility: hidden;
+	font-family: 'Unica One',sans-serif;
+	color: white;
+	font-size: 40px;
+	font-weight: 700;
+	line-height:1;
+	text-align: center;
+
+
+	-webkit-transform: translate(0,-20px);
+	   -moz-transform: translate(0,-20px);
+	    -ms-transform: translate(0,-20px);
+	     -o-transform: translate(0,-20px);
+	        transform: translate(0,-20px);
+
+	-webkit-transition: -webkit-transform 1s ease-out;
+	   -moz-transition: -moz-transform 1s ease-out;
+	     -o-transition: -o-transform 1s ease-out;
+	        transition: transform 1s ease-out;
+}
+
+/*----------------*/
+
+
+
 #top #site-name{
 	position:absolute;
 	width:90%;
@@ -2595,7 +2629,7 @@ textarea.focus,
 #top #site-name span:last-child{
 	margin-right: 0;
 }
-#top #site-name .c6{
+#top #site-name .c4 {
 	margin-right:1em;
 }
 #top #site-name.show{

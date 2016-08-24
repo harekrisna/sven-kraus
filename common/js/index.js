@@ -15,26 +15,21 @@
 	var timer = subTimer = null;
 	var numImages = $images.length
 	var current = Math.floor(Math.random()*numImages);
-	var INTERVAL = 5000;
+	var INTERVAL = 10000;
 
 
 	var title = $title.text();
 	var typo_delay = [
-		12, // 1 M
-		12, // 2 I
-		14, // 3 K
-		 2, // 4 I
-		 8, // 5 Y
-		 4, // 6 A
-		 5, // 7 K
-		15, // 8 O
-		12, // 9 B
-		16, //10 A
-		 9, //11 Y
-		20, //12 A
-		15, //13 S
-		17, //14 H
-		10  //15 I
+		8, // 1 S
+		2, // 2 V
+		5, // 3 E
+		 2, // 4 N
+		 8, // 5 
+		 4, // 6 K
+		 5, // 7 R
+		15, // 8 A
+		12, // 9 U
+		20, //10 S
 	]
 
 	$title.html('');
