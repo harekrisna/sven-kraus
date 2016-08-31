@@ -1,0 +1,19 @@
+#top #title.show {
+    transform: translate(0px, 0px);
+}
+
+#top #title {
+    color: white;
+    font-family: "Unica One",sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    left: 50%;
+    line-height: 1;
+    margin-left: -45%;
+    position: absolute;
+    text-align: center;
+    top: 51%;
+    width: 90%;
+    z-index: 1;
+	visibility: hidden;
+}
