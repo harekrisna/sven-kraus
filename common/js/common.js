@@ -1,13 +1,4 @@
-/*
- * common.js
- * ---
- * @author takaaki.koyama
- * ---
- * ---------------------------------------------
- * (c) baqemono.inc. all rights reserved.
- * ---------------------------------------------
- */
- (function(){
+(function(){
 	for(var a=0,b=["ms","moz","webkit","o"],c=0;c<b.length&&!window.requestAnimationFrame;++c){
 		window.requestAnimationFrame = window[b[c]+"RequestAnimationFrame"];
 		window.cancelAnimationFrame = window[b[c]+"CancelAnimationFrame"]||window[b[c]+"CancelRequestAnimationFrame"]

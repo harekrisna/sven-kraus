@@ -1,12 +1,4 @@
-/*
- * flow_grid_init.js
- * ---
- * @author takaaki.koyama
- * ---
- * ---------------------------------------------
- * (c) baqemono.inc. all rights reserved.
- * ---------------------------------------------
- */
+
 (function(){
 
 	$('.flow-grid > .entry img[data-original]').fadeTo(0,0).waypoint({
