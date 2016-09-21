@@ -1,3 +1,12 @@
+/*
+ * common.js
+ * ---
+ * @author takaaki.koyama
+ * ---
+ * ---------------------------------------------
+ * (c) baqemono.inc. all rights reserved.
+ * ---------------------------------------------
+ */
 (function($){
 
 	var $images = $('#images li');

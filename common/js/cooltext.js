@@ -1,3 +1,16 @@
+/*
+ *
+ *	CoolText v1.1.1
+ *
+ *	Copyright (c) 2014 Thomas Dolso
+ *	http://www.megalocode.com/cooltext
+ *
+ *	Licenses
+ * http://codecanyon.net/licenses/regular
+ * http://codecanyon.net/licenses/extended
+ *
+ *
+ */
 
 ;(function ($, window, document, undefined) {
 
