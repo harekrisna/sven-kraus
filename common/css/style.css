@@ -2787,6 +2787,101 @@ textarea.focus,
 
 
 
+
+#photo #scroll-info{
+	position:absolute;
+	left:50%;
+	bottom:30px;
+	margin-left: -50px;
+	width: 100px;
+	height: 45px;
+
+	z-index:2;
+	overflow:hidden;
+
+
+	-webkit-transform: translate(0, 80px);
+	   -moz-transform: translate(0, 80px);
+	    -ms-transform: translate(0, 80px);
+	     -o-transform: translate(0, 80px);
+	        transform: translate(0, 80px);
+
+	-webkit-transition: -webkit-transform 0.6s ease-in-out;
+	   -moz-transition: -moz-transform 0.6s ease-in-out;
+	     -o-transition: -o-transform 0.6s ease-in-out;
+	        transition: transform 0.6s ease-in-out;
+}
+
+#photo #scroll-info.show{
+	-webkit-transform: translate(0, 0);
+	   -moz-transform: translate(0, 0);
+	    -ms-transform: translate(0, 0);
+	     -o-transform: translate(0, 0);
+	        transform: translate(0, 0);
+}
+
+#photo #scroll-info a{
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+	padding: 10px;
+	color: #1a1a1a;
+	font-family: 'Unica One';
+	font-size: 16px;
+	font-weight: 700;
+	line-height:1;
+	text-align:center;
+	letter-spacing:0.2em;
+
+	z-index: 1;
+}
+#photo #scroll-info-line{
+	position:absolute;
+	left: 10px;
+	bottom: 10px;
+	width:80px;
+	height:2px;
+	overflow:hidden;
+	z-index: 0;
+}
+#photo #scroll-info-line div{
+	position:absolute;
+	left: 0;
+	top: 0;
+	width:80px;
+	height:2px;
+	background-color: white;
+
+	-webkit-animation-duration: 1.5s;
+	        animation-duration: 1.5s;
+	-webkit-animation-fill-mode: both;
+	        animation-fill-mode: both;
+	-webkit-animation-iteration-count: infinite;
+	        animation-iteration-count: infinite;
+	-webkit-animation-name: scroll-info-line;
+	        animation-name: scroll-info-line;
+		-webkit-animation-timing-function:ease-in-out;
+		        animation-timing-function:ease-in-out;
+}
+@-webkit-keyframes scroll-info-line {
+	from, 5% { width: 0px; }
+	33%,66% { left: 0px; width: 80px; }
+	95%, to { left: 80px; }
+}
+
+@keyframes scroll-info-line {
+	from, 5% { width: 0px; }
+	33%,66% { left: 0px; width: 80px; }
+	95%, to { left: 80px; }
+}
+
+
+
+
+
+
+
 /*
  portfolio
 ---------------------------------------------------*/
