@@ -1,12 +1,3 @@
-/*
- * page_init.js
- * ---
- * @author takaaki.koyama
- * ---
- * ---------------------------------------------
- * (c) baqemono.inc. all rights reserved.
- * ---------------------------------------------
- */
 (function(){
 	$('.sections > .section:not(.hide):not(.show)').addClass('hide').waypoint({
 		handler: function(direction) {

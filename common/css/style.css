@@ -1,13 +1,8 @@
 @charset "utf-8";
-/**--------------------------------------------------------
- * CSS information
- * file name	: style.css
- * author		: takaaki koyama
- -----------------------------------------------------------*/
+
 /*
 font-family: 'Josefin Sans';
 font-family: 'Unica One';
-
  */
 
 
@@ -233,11 +228,11 @@ a{
 	        transition: color ease-out 0.25s;
 }
 a:link,a:visited{
-	color: #19a69a;
+	color: black;
 	text-decoration: none;
 }
 a:hover{
-	color: #5BCDC3;
+	color: #e5e5e5;
 	text-decoration: none;
 }
 a:active{
@@ -420,7 +415,7 @@ a:active{
 	margin-left: -140px;
 	width: 280px;
 	font-family: 'Unica One';
-	font-weight:bold;
+	font-weight: normal;
 	letter-spacing: 0.5em;
 }
 
@@ -567,11 +562,11 @@ li.current .sub-nav-links{
 	background-color: #1a1a1a;
 
 
-	/*-webkit-transition: 375ms;
+	-webkit-transition: 375ms;
 	   -moz-transition: 375ms;
-	     -o-transition: 375ms;
+	   -o-transition: 375ms;
 	        transition: 375ms;
-	-webkit-transition-property: top, opacity;
+	 /* -webkit-transition-property: top, opacity;
 	   -moz-transition-property: top, opacity;
 	     -o-transition-property: top, opacity;
 	        transition-property: top, opacity;*/
@@ -588,14 +583,14 @@ li.current .sub-nav-links{
 }
 #gnavi .nav-btn a .bars .bar:nth-child(2){
 	top: 12px;
-	/*-webkit-transition-delay: 80ms;
+	/* -webkit-transition-delay: 80ms;
 	   -moz-transition-delay: 80ms;
 	     -o-transition-delay: 80ms;
 	        transition-delay: 80ms;*/
 }
 #gnavi .nav-btn a .bars .bar:nth-child(3){
 	top: 18px;
-	/*-webkit-transition-delay: 40ms;
+	/* -webkit-transition-delay: 40ms;
 	   -moz-transition-delay: 40ms;
 	     -o-transition-delay: 40ms;
 	        transition-delay: 40ms;*/
@@ -603,40 +598,40 @@ li.current .sub-nav-links{
 #gnavi .nav-btn a .bars .bar:nth-child(4){
 	top: 24px;
 	opacity: 0;
-	/*-webkit-transition-delay: 0ms;
+	 -webkit-transition-delay: 0ms;
 	   -moz-transition-delay: 0ms;
 	     -o-transition-delay: 0ms;
-	        transition-delay: 0ms;*/
+	        transition-delay: 0ms;
 }
 
 
 #gnavi .nav-btn a:hover .bars .bar:nth-child(1){
-	top: 0px;
-	opacity: 0;
-	/*-webkit-transition-delay: 0ms;
+	top: 6px;
+
+	 /*-webkit-transition-delay: 0ms;
 	   -moz-transition-delay: 0ms;
 	     -o-transition-delay: 0ms;
 	        transition-delay: 0ms;*/
 
 }
 #gnavi .nav-btn a:hover .bars .bar:nth-child(2){
-	top: 6px;
-	/*-webkit-transition-delay: 40ms;
+	top: 12px;
+	/* -webkit-transition-delay: 40ms;
 	   -moz-transition-delay: 40ms;
 	     -o-transition-delay: 40ms;
 	        transition-delay: 40ms;*/
 }
 #gnavi .nav-btn a:hover .bars .bar:nth-child(3){
-	top: 12px;
-	/*-webkit-transition-delay: 80ms;
+	top: 18px;
+	/* -webkit-transition-delay: 80ms;
 	   -moz-transition-delay: 80ms;
 	     -o-transition-delay: 80ms;
 	        transition-delay: 80ms;*/
 }
 #gnavi .nav-btn a:hover .bars .bar:nth-child(4){
-	top: 18px;
-	opacity: 1;
-	/*-webkit-transition-delay: 125ms;
+	top: 24px;
+	/*opacity: 1;
+	 -webkit-transition-delay: 125ms;
 	   -moz-transition-delay: 125ms;
 	     -o-transition-delay: 125ms;
 	        transition-delay: 125ms;*/
