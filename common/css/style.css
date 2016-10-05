@@ -1718,24 +1718,25 @@ li.current .sub-nav-links{
 .section-tabled .tabled-row:after { clear: both; }
 
 .section-tabled .tabled-th{
-	width:220px;
-	float:left;
+	width: 410px;
+	float: right;
 	font-family: 'Josefin Sans';
 	font-weight: 700;
+	margin-left: 50px;
+	margin-bottom: 20px;
 }
 
 .section-tabled .tabled-td{
-	width:680px;
-	float:left;
+	width: 900px;
+	text-align: justify;
 }
 
 @media only screen and (max-width: 1000px){
 	.section-tabled .tabled-th{
-		position:absolute;
-		float:none;
+		position: relative;
+		float:right;
 	}
 	.section-tabled .tabled-td{
-		padding-left:220px;
 		width:100%;
 		float:none;
 	}
