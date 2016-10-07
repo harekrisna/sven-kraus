@@ -415,7 +415,7 @@ a:active{
 	margin-left: -140px;
 	width: 280px;
 	font-family: 'Unica One';
-	font-weight: normal;
+	font-weight: 600;
 	letter-spacing: 0.5em;
 }
 
@@ -1726,6 +1726,10 @@ li.current .sub-nav-links{
 	margin-bottom: 20px;
 }
 
+.section-tabled .left-th-align {
+	float: left !important;
+}
+
 .section-tabled .tabled-td{
 	width: 900px;
 	text-align: justify;
@@ -1943,6 +1947,11 @@ li.current .sub-nav-links{
   top: 11px
 }
 
+.paginate .prevnews {
+	top: 6px;
+}
+
+
 .paginate .next {
   position: absolute;
   right: 37px;
@@ -1970,6 +1979,9 @@ li.current .sub-nav-links{
   top: 11px
 }
 
+.paginate .nextnews {
+	top: 6px !important;
+}
 
 /*
 .slide-container
