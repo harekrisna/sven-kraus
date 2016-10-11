@@ -163,11 +163,11 @@ em{
  ::selection
 ---------------------------------------------------*/
 ::selection {
-	background: #3cb5aa;
+	background: #b9b9b9;
 	color: #1a1a1a;
 }
 ::-moz-selection {
-	background: #3cb5aa;
+	background: #b9b9b9;
 	color: #1a1a1a;
 }
 
@@ -3448,6 +3448,10 @@ textarea.focus,
 
 #profile .text_line{
 	margin-bottom:1em;
+}
+
+#profile .profile-text {
+	margin-top: 67px
 }
 
 #profile .section [lang="cz"] {
