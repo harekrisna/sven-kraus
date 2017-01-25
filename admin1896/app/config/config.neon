@@ -1,0 +1,34 @@
+#
+# WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# https://nette.org/security-warning
+#
+parameters:
+
+
+php:
+	date.timezone: Europe/Prague
+
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+constants:
+	USER_AVATARS_IMG_FOLDER = user_avatars
+
+session:
+	expiration: 14 days
+
+services:
+	- App\Model\UserManager
+	- App\Forms\FormFactory
+	- App\Forms\SignFormFactory
+	- App\Forms\ArtworkFormFactory
+	
+	router: App\RouterFactory::createRouter
+	
+	artwork: App\Model\Artwork
+	photo: App\Model\Photo
+	
+	filters: App\Templates\Filters

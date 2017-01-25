@@ -1,0 +1,17 @@
+parameters:
+
+database:
+	remote:
+		dsn: 'mysql:host=example;dbname=sktscore'
+		user: example
+		password: example
+		options:
+			lazy: yes
+
+	localhost:
+		dsn: 'mysql:host=localhost;dbname=sktscore'
+		user: root
+		password: root
+		options:
+			lazy: yes
+			

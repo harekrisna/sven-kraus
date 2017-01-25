@@ -1,0 +1,11 @@
+	<div id="{$photo->id}"{ifset $new} style="width:0; height:0"{/ifset}>
+    	{var @filesize = filesize("./".$artwork_photos_folder."/photos/".$photo->file)}
+        <a class="remove" onclick="removePhoto(event, this);" n:href="removePhoto!, $photo->id"><span class="glyphicon glyphicon-remove"></span></a>
+        <span class="dimensions">{$photo->width}x{$photo->height}</span>
+        <div class="box">
+            <img alt="{$photo->file}" title="{$photo->file}" src="../{$artwork_photos_folder}/previews/{$photo->file}" />
+        </div>
+        <div class="file-name">{$photo->file}</div>
+        <div class="file-size">[<span>{$filesize|bytes}</span>]</div>
+        <input type="text" class="form-control" value="{$photo->description}" onchange="saveDescription({$photo->id}, $(this).val())" placeholder="Popis" />
+	</div>

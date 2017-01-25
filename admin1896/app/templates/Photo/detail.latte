@@ -1,0 +1,156 @@
+{block head}
+<link rel="stylesheet" type="text/css" href="{$basePath}/css/uploadifive.css">
+{/block}
+{block main}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2 n:block="title">Artwork: {$artwork->title}</h2>
+        <ol class="breadcrumb">
+            <li><a n:href="Artwork:list">Zpět</a></li>
+        </ol>
+    </div>
+</div>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-md-3" style="height: 125px; margin-top: -5px;">
+        <ul class="list-group clear-list m-t">
+            <li class="list-group-item fist-item">
+                <span class="pull-right">
+                    {$artwork->photos_folder}
+                </span>
+                <span class="label label-success"><span class="glyphicon glyphicon-folder-open"></span></span> Adresář galerie:
+            </li>
+            <li class="list-group-item">
+                <span id="images_dir_count" class="pull-right">
+                    {$images_dir_count}
+                </span>
+                <span class="label label-success"><span class="glyphicon glyphicon-duplicate"></span></span> Počet fotek v adresáři:
+            </li>
+            <li class="list-group-item">
+                <span id="images_db_count" class="pull-right">
+                    {$photos->count()}
+                </span>
+                <span class="label label-success"><span class="glyphicon glyphicon-hdd"></span></span> Počet fotek v databázi:
+            </li>
+        </ul>
+	</div>
+	<div class="col-md-3" style="height: 125px; margin-top: -5px;">
+        <ul class="list-group clear-list m-t">
+            <li class="list-group-item fist-item">
+                <a n:href="sortPhotos, $artwork->id"><span class="label label-error"><span class="glyphicon glyphicon-sort-by-attributes"></span></span> Seřadit fotky podle názvu souboru</a>
+            </li>
+        </ul>
+	</div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+	<fieldset id="upload">
+	    <legend>Nahrávání fotek na server:</legend>
+		<form>
+			<div id="queue"></div>
+			<input id="file_upload" name="file_upload" type="file" multiple="true">
+			<a id="upload_link" class="btn btn-primary" href="javascript:$('#file_upload').uploadifive('upload')"><span class="glyphicon glyphicon-sort-by-attributes" style="margin-right: 12px;"></span>Nahrát na server</a>
+		</form>		
+	</fieldset>
+	<div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Fotky</h5>
+                </div>
+                <div class="ibox-content" >
+                    <div class="row" id="galery_photos">
+                    	{foreach $photos as $photo}
+                    	{include photo-box.latte, photo => $photo}
+			            {/foreach}			            
+			        </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+{/block}
+{block scripts}
+  <script type="text/javascript" src="{$basePath}/js/jquery.nette.js"></script>
+  <script type="text/javascript" src="{$basePath}/js/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="{$basePath}/js/jquery.uploadifive.min.js"></script>
+  <script type="text/javascript">
+  
+	$("#galery_photos").sortable({
+        cursor: 'move',
+        scroll: false,
+        effects: true,
+        placeholder: 'droppable-area',
+        update: function (event, ui) { 
+            $.get({link updatePosition!}, { "photo_id": $(ui.item).attr('id'),
+                                            "new_position": $(ui.item).index()+1}
+        )},
+    });
+  	
+	{? $timestamp = time()}
+	$(function() {
+		$('#file_upload').uploadifive({
+			'auto'             : false,
+			'formData'         : {
+								   'timestamp' : {$timestamp},
+								   'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+			                     },
+			'queueID'          : 'queue',
+			'buttonText' : '<span class="glyphicon glyphicon-picture" style="margin-right: 10px !important"></span> VYBRAT FOTKY',
+			'uploadScript'     : {link uploadFile!, $artwork->id},
+			'onUploadComplete' : function(file, payload) { onUploadComplete(file, payload); }
+		});
+	});
+  	
+  	function onUploadComplete(file, payload) {
+        try { // update existující fotky
+            payload = JSON.parse(payload);
+            photo = payload['photo'];
+            d = new Date();
+            
+            var container = $("#" + photo['id']);
+            container.find("span.dimensions").html(photo['width'] + 'x' + photo['height']);
+            container.find("div.info span").html(payload['filesize']);
+            container.find("img").attr("src", {$basePath} + "/" + payload['file_path'] + "?" + d.getTime());
+            container.addClass("refresh");
+            setTimeout(function(){
+                container.removeClass("refresh");
+            },2000);
+        }
+        catch (e) { // nová fotka
+            $('div#galery_photos').append(payload);
+    		var dir = $('#images_dir_count');
+    		var db = $('#images_db_count');
+    		dir.html(parseInt(dir.text()) + 1);
+    		db.html(parseInt(db.text()) + 1);
+    		$('div#galery_photos > div:last').animate({
+												height: 313,
+												width: 250,
+											});
+        }
+  	}
+  	
+  	function removePhoto(event, a) {
+		event.preventDefault();
+		$.get(a.href, function(payload) {
+			if(payload.success) {
+				$(a).parent().animate({
+								height: 0,
+								width: 0,
+							}, function() {
+								this.remove();
+							});
+				
+				$('#images_dir_count').html(payload.images_dir_count);
+				$('#images_db_count').html(payload.images_db_count);
+				$.nette.success(payload);
+			}
+		});
+	}
+
+	function saveDescription(photo_id, text ) { 
+	    $.get({link updateDescription!}, { "photo_id": photo_id,
+	                                       "text": text }
+	)};
+
+  </script>
+
+{/block}

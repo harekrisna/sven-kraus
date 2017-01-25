@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{block title|striptags}{/block} | sven-kra.us</title>
+
+    <link href="{$basePath}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{$basePath}/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="{$basePath}/css/animate.css" rel="stylesheet">
+    <link href="{$basePath}/css/style.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="{$basePath}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    
+    <script src="{$basePath}/js/jquery-2.2.3.js"></script>
+	{block head}
+	{/block}
+</head>
+<body>
+    <div id="wrapper">
+	    <nav class="navbar-default navbar-static-side" role="navigation">
+	        <div class="sidebar-collapse">
+	            <ul class="nav metismenu" id="side-menu">
+	                <li class="nav-header">
+	                    <div class="dropdown profile-element">
+		                    <span><img alt="image" class="img-circle" src="{$basePath}/images/{=USER_AVATARS_IMG_FOLDER}/{$user->identity->image}" /></span>
+	                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+	                            <span class="clear">
+	                            	<span class="block m-t-xs"><strong class="font-bold">{$user->identity->fullname}</strong></span>
+	                            	<span class="text-muted text-xs block">Administrátor <b class="caret"></b></span>
+	                            </span>
+	                        </a>
+	                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+	                            <li><a href="profile.html">Profil</a></li>
+	                            <li class="divider"></li>
+	                            <li><a n:href="Sign:out">Odhlásit</a></li>
+	                        </ul>
+	                    </div>
+	                    <div class="logo-element">SK</div>
+	                </li>
+	                <li n:class="$presenter->isLinkCurrent('Artwork:*') ? active">
+	                    <a n:href="Artwork:list" title="Artwork"><i class="fa fa-paint-brush"></i><span class="nav-label">Artworks</span><span class="fa arrow"></span></a>
+	                    <ul class="nav nav-second-level collapse">
+	                        <li n:class="$presenter->isLinkCurrent('Artwork:add') ? active"><a n:href="Artwork:add">Přidat</a></li>
+	                        <li n:class="$presenter->isLinkCurrent('Artwork:list') ? active"><a n:href="Artwork:list">Přehled</a></li>
+	                    </ul>
+	                </li>
+	            </ul>
+	        </div>
+	    </nav>
+        <div id="page-wrapper" class="gray-bg">
+         <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i></a>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li><span class="m-r-sm text-muted welcome-message">INSPINIA+ Admin Theme.</span></li>
+                        <li class="main-ajax-spinner">
+                            <div class="sk-spinner sk-spinner-circle">
+                                <div class="sk-circle1 sk-circle"></div>
+                                <div class="sk-circle2 sk-circle"></div>
+                                <div class="sk-circle3 sk-circle"></div>
+                                <div class="sk-circle4 sk-circle"></div>
+                                <div class="sk-circle5 sk-circle"></div>
+                                <div class="sk-circle6 sk-circle"></div>
+                                <div class="sk-circle7 sk-circle"></div>
+                                <div class="sk-circle8 sk-circle"></div>
+                                <div class="sk-circle9 sk-circle"></div>
+                                <div class="sk-circle10 sk-circle"></div>
+                                <div class="sk-circle11 sk-circle"></div>
+                                <div class="sk-circle12 sk-circle"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <a n:href="Sign:out">
+                                <i class="fa fa-sign-out"></i> Odhlásit
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+			{include main}
+			<div class="footer">
+            	<div class="pull-right">300 osob, rozdáno <strong>12000 knih</strong>.</div>
+				<div><strong>Copyright</strong> MKD &copy; 2017</div>
+			</div>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="{$basePath}/js/bootstrap.min.js"></script>
+    <script src="{$basePath}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="{$basePath}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>    
+    <script src="{$basePath}/js/inspinia.js"></script>
+    <script src="{$basePath}/js/plugins/pace/pace.min.js"></script>
+
+    <!-- Toastr script -->
+    <script src="{$basePath}/js/plugins/toastr/toastr.min.js"></script>
+
+    <script src="{$basePath}/js/jquery.nette.js"></script>
+    <script src="{$basePath}/js/main.js"></script>
+
+    {snippet flashes}
+    <script>
+    {foreach $flashes as $flash}
+    	toastr.{$flash->type|noescape}({$flash->message});
+    {/foreach}
+    </script>
+    {/snippet}
+	{block scripts}
+	{/block}
+</body>
+
+</html>
