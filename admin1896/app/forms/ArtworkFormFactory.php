@@ -5,7 +5,6 @@ namespace App\Forms;
 use Nette;
 use Nette\Application\UI\Form;
 use Tracy\Debugger;
-use Nette\Utils\Strings;
 
 class ArtworkFormFactory extends Nette\Object {
 	/** @var FormFactory */
@@ -46,7 +45,8 @@ class ArtworkFormFactory extends Nette\Object {
 	public function formSucceeded(Form $form, $values) {
 		try {
 			if($form->isSubmitted()->name == "add") {
-				$new_record = $this->artwork->insert($values->data);			
+				$values->data->position = $this->artwork->findAll()->max('position') + 1;
+				$new_record = $this->artwork->insert($values->data);
 				$photos_folder = $new_record->id."_".Strings::webalize($new_record->title);
 				$this->artwork->update($new_record->id, ['photos_folder' => $photos_folder]);
 				$photos_folder = "./images/photos/".$photos_folder;
