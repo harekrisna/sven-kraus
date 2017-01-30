@@ -66,7 +66,7 @@ final class PhotoPresenter extends BasePresenter {
 				$artwork_photos_folder = $this->photos_dir."/".$artwork->photos_folder;
 				
 				$image = Image::fromFile($tempFile);
-				$image->resize(NULL, 1200, Image::SHRINK_ONLY);
+				//$image->resize(NULL, 1200, Image::SHRINK_ONLY);
 				$image->save($artwork_photos_folder."/photos/{$targetFile}");
 				chmod($artwork_photos_folder."/photos/{$targetFile}", 0777);
                 $filesize = filesize($artwork_photos_folder."/photos/{$targetFile}");

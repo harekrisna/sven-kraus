@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -9,7 +8,7 @@
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
 	<meta name="author" content="Sven Kraus" />
-    <meta property="og:title" content="Sven Kraus" />
+    <meta property="og:title" content="Sven Kra.us" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="../../../index.html" />
     <meta property="og:image" content="../../../common/img/ogp.jpg" />
@@ -62,69 +61,26 @@
 			<div id="photo">
 				{foreach $photos as $photo}
 				<div class="entry-photo">
-					<div class="photo"><img src="../{$artwork_folder}/{$photo->file}" alt="enso"></div>
+					<div class="photo"><img src="../{$artwork_folder}/{$photo->file}" alt="{$photo->description}"></div>
 					<div class="credit">{$photo->description}</div>
-				</div>					
-				{/foreach}
-				
-				<div id="scroll-info">
+				</div>
+				<div n:if="$iterator->first" id="scroll-info">
 					<a href="projects/index.html"></a>
 					<div id="scroll-info-line"><div></div></div>
-				</div>				
-				<div class="entry-photo">
-					<div class="photo"><img src="../02_zenga_bokusho/jungle.JPG" alt="jungle"></div>
-					<div class="credit">jungle</div>
 				</div>
-				
-				<div class="entry-photo">
-					<div class="photo"><img src="../02_zenga_bokusho/love.JPG" alt="love"></div>
-					<div class="credit">love</div>
-				</div>
-				
-				<div class="entry-photo">
-					<div class="photo"><img src="../02_zenga_bokusho/mouse.JPG" alt="mouse"></div>
-					<div class="credit">mouse</div>
-				</div>
-				<div class="entry-photo">
-					<div class="photo"><img src="../02_zenga_bokusho/mujibo.jpg" alt="mujibo"></div>
-					<div class="credit">mujibo</div>
-				</div>
-				<div class="entry-photo">
-					<div class="photo"><img src="../02_zenga_bokusho/mushroom.JPG" alt="mushroom"></div>
-					<div class="credit">mushroom</div>
-				</div>
-				<div class="entry-photo">
-					<div class="photo"><img src="../02_zenga_bokusho/mystical_god.JPG" alt="mystical god"></div>
-					<div class="credit">mystical god</div>
-				</div>
-				<div class="entry-photo">
-					<div class="photo"><img src="../02_zenga_bokusho/now.JPG" alt="now"></div>
-					<div class="credit">now</div>
-				</div>
-				<div class="entry-photo">
-					<div class="photo"><img src="../02_zenga_bokusho/nude.jpg" alt="nude"></div>
-					<div class="credit">nude</div>
-				</div>
-				<div class="entry-photo">
-					<div class="photo"><img src="../02_zenga_bokusho/power.JPG" alt="power"></div>
-					<div class="credit">power</div>
-				</div>
-				<div class="entry-photo">
-					<div class="photo"><img src="../02_zenga_bokusho/zen.JPG" alt="zen"></div>
-					<div class="credit">zen</div>
-				</div>
+				{/foreach}
 			</div>
 			<div id="info">
 				<div class="paginate">
-					<a href="../01_sho/index.html" class="previous"></a>
+					<a href="../{$previsous_artwork_folder}/index.html" class="previous"></a>
 					<div class="list">
 					 	<a href="../../../artworks/index.html" class="close"> </a>
 					</div>
-					<a href="../03_prints/index.html" class="next"></a>
+					<a href="../{$next_artwork_folder}/index.html" class="next"></a>
 				</div>
 				<div class="entry-detail">
-					<h1 class="title">ZENGA BOKUSHO</h1>
-					<ul class="categories"><li>unrepeatable inkart</li>
+					<h1 class="title">{$artwork->title}</h1>
+					<ul class="categories"><li>{$artwork->description_detail|nl2br|noescape}</li>
 <li></li>
 <li></li>
 </ul>
@@ -145,7 +101,7 @@
 	<nav id="gnavi-links" class="nav-links">
 		<ul class="hover-line-links">
 			<li><a href="../../../artworks/index.html" class="current"><span>artworks</span></a></li>
-			<li><a href="../../../project/index.html" ><span>workshop</span></a></li>
+			<li><a href="../../../projects/index.html" ><span>workshop</span></a></li>
 			<li><a href="../../../news/index.html"><span>news</span></a></li>
 			<li><a href="../../../profile/index.html"><span>profile</span></a></li>
 			<li><a href="../../../contact/index.html"><span>contact</span></a></li>

@@ -70,7 +70,8 @@ class ArtworkPresenter extends BasePresenter {
 				$form->getPresenter()->redirect('Artwork:list');
 			}
 		};
- 
+ 		
+ 		return $form;
 	}	
 
 	public function actionDelete($id) {
@@ -109,34 +110,79 @@ class ArtworkPresenter extends BasePresenter {
 	}	
 
 	public function actionGenerateToWeb() {
-		$artworks = $this->model->findAll();
-		$main_folder = "../../artworks/test";
+		$artworks = $this->model->findAll()->order('position');
+		$main_folder = "../../artworks/";
+		$artworks_folder = $main_folder."/product";
+		$latte = new Latte\Engine;
 
-		FileSystem::delete($main_folder);
-		FileSystem::createDir($main_folder);
+		FileSystem::delete($artworks_folder);
+		FileSystem::createDir($artworks_folder);
+
+		$last_artwork = $this->model->findAll()
+									->order('position DESC')
+									->limit(1)
+									->fetch();
 
 		foreach ($artworks as $artwork) {
-			$position = str_pad($artwork->position, 2, "0", STR_PAD_LEFT);
-			$artwork_folder = $main_folder."/".$position."_".Strings::webalize($artwork->title);
+			$artwork_folder = $artworks_folder."/".Strings::padLeft($artwork->position, 2, '0')."_".Strings::webalize($artwork->title);
 			FileSystem::createDir($artwork_folder);
 
-			foreach ($artwork->related('photo') as $photo) {
-				$photos = "./images/photos/".$artwork->photos_folder."/photos/";
-				FileSystem::copy($photos, $artwork_folder);
-			}
+			$photos = "./images/photos/".$artwork->photos_folder."/photos/";
+			FileSystem::copy($photos, $artwork_folder);
+
+			$previsous_artwork = $this->model->findBy(['position' => $artwork->position - 1])
+											 ->fetch();
+
+			$next_artwork = $this->model->findBy(['position' => $artwork->position + 1])
+										->fetch();
 			
-	        $latte = new Latte\Engine;
-					
+			if($artwork->position == 1) {
+				$previsous_artwork = $this->model->findAll()
+												 ->order('position DESC')
+												 ->limit(1)
+												 ->fetch();
+			}
+
+			if($artwork->position == $last_artwork->position) {
+				$next_artwork = $this->model->findAll()
+										    ->order('position ASC')
+											->limit(1)
+											->fetch();
+			}
+
+			Debugger::fireLog($previsous_artwork);
+
 			$params = array(
 				'artwork' => $artwork,
 				'photos' => $artwork->related('photo')->order('position'),
-				'artwork_folder' => $position."_".Strings::webalize($artwork->title),
+				'artwork_folder' => Strings::padLeft($artwork->position, 2, '0')."_".Strings::webalize($artwork->title),
+				'previsous_artwork_folder' =>  Strings::padLeft($previsous_artwork->position, 2, '0')."_".Strings::webalize($previsous_artwork->title),
+				'next_artwork_folder' => Strings::padLeft($next_artwork->position, 2, '0')."_".Strings::webalize($next_artwork->title),
 			);
 			
-			$template = $latte->renderToString('../app/templates/components/artwork-detail.latte', $params);
+			$template = $latte->renderToString('../app/templates/components/generator-templates/artwork-detail.latte', $params);
 			file_put_contents($artwork_folder."/index.html", $template);
 		}
 
-		//$this->redirect('list');
+
+		$artworks_list = [];
+
+		foreach ($artworks as $artwork) {
+			$artwork_item = $artwork->toArray();
+			$artwork_item['folder'] = Strings::padLeft($artwork->position, 2, '0')."_".Strings::webalize($artwork->title);
+			$artwork_item['list_photo'] = $artwork->related('photo')->order('position ASC')
+																	->limit(1)
+																	->fetch();
+			$artworks_list[] = $artwork_item;
+		}
+
+		$params = array(
+			'artworks' => $artworks_list,
+		);
+		
+		$template = $latte->renderToString('../app/templates/components/generator-templates/artwork-list.latte', $params);
+		file_put_contents($main_folder."/index.html", $template);
+
+		$this->redirect('list');
 	}
 }

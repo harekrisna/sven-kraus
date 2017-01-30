@@ -9,16 +9,15 @@
                 </ol>
 		    </div>
 		</div>
-        <div class="row wrapper border-bottom white-bg page-heading">
-    
-    <div class="col-md-3" style="height: 44px; margin-top: -5px;">
-        <ul class="list-group clear-list m-t">
-            <li class="list-group-item fist-item">
-                <a n:href="generateToWeb"><span class="label label-link icon-bigger"><span class="fa fa-cog"></span></span> Generovat artworks na web</a>
-            </li>
-        </ul>
-    </div>
-</div>
+        <div n:if="$presenter->getAction() == 'list'" class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-md-3" style="height: 44px; margin-top: -5px;">
+                <ul class="list-group clear-list m-t">
+                    <li class="list-group-item fist-item">
+                        <a n:href="generateToWeb"><span class="label label-link icon-bigger"><span class="fa fa-cog"></span></span> Generovat artworks na web</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div class="wrapper wrapper-content animated fadeInRight">
             {include content}            
         </div>

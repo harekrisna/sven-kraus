@@ -4,6 +4,7 @@ namespace App\Forms;
 
 use Nette;
 use Nette\Application\UI\Form;
+use Nette\Utils\Strings;
 use Tracy\Debugger;
 
 class ArtworkFormFactory extends Nette\Object {
@@ -30,6 +31,11 @@ class ArtworkFormFactory extends Nette\Object {
 
 		$data->addText('description_list', 'Popis v přehledu');
 		$data->addTextArea('description_detail', 'Popis v detailu');
+
+		$data->addText('photo_preview_height', 'Výška fotky v přehledu')
+			 ->setType('number')
+			 ->setAttribute('min', 0)
+			 ->setDefaultValue('300');
 
 	    $form->addSubmit('add', 'Přidat artwork');
 	    $form->addSubmit('edit', 'Uložit změny');

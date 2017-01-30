@@ -350,19 +350,19 @@ textarea.form-control.import-source {
 .form-group.padding-checkbox {
   padding-top: 14px;
 }
-.form-control.tiny {
+.form-group .tiny {
   width: 100px;
 }
-.form-control.small {
+.form-group .small {
   width: 200px;
 }
-.form-control.medium {
+.form-group .medium {
   width: 300px;
 }
-.form-control.large {
+.form-group .large {
   width: 400px;
 }
-.form-control.in-table {
+.form-group .in-table {
   height: 28px;
   padding: 1px 5px;
   margin: 5px;
