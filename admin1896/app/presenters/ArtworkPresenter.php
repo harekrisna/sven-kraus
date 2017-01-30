@@ -10,6 +10,7 @@ use App\Forms\ArtworkFormFactory;
 use Nette\Database\SqlLiteral;
 use Nette\Utils\Strings;
 use Nette\Utils\FileSystem;
+use Latte;
 
 
 class ArtworkPresenter extends BasePresenter {
@@ -120,9 +121,20 @@ class ArtworkPresenter extends BasePresenter {
 			FileSystem::createDir($artwork_folder);
 
 			foreach ($artwork->related('photo') as $photo) {
-				$photo_file = "./images/photos/".$artwork->photos_folder."/photos/".$photo->file;
-				FileSystem::copy($photo_file, $artwork_folder."/".$photo->file);
+				$photos = "./images/photos/".$artwork->photos_folder."/photos/";
+				FileSystem::copy($photos, $artwork_folder);
 			}
+			
+	        $latte = new Latte\Engine;
+					
+			$params = array(
+				'artwork' => $artwork,
+				'photos' => $artwork->related('photo')->order('position'),
+				'artwork_folder' => $position."_".Strings::webalize($artwork->title),
+			);
+			
+			$template = $latte->renderToString('../app/templates/components/artwork-detail.latte', $params);
+			file_put_contents($artwork_folder."/index.html", $template);
 		}
 
 		//$this->redirect('list');
