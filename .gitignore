@@ -1,3 +1,5 @@
 .DS_Store
 artworks/*
 artworks/product/*
+admin1896/app/config/config.local.neon
+admin1896/temp/
