@@ -13,8 +13,10 @@ use Nette;
 /**
  * Cached reflection of database structure.
  */
-class Structure extends Nette\Object implements IStructure
+class Structure implements IStructure
 {
+	use Nette\SmartObject;
+
 	/** @var Connection */
 	protected $connection;
 
@@ -105,7 +107,7 @@ class Structure extends Nette\Object implements IStructure
 
 		} else {
 			if (!isset($this->structure['hasMany'][$table])) {
-				return array();
+				return [];
 			}
 			return $this->structure['hasMany'][$table];
 		}
@@ -126,7 +128,7 @@ class Structure extends Nette\Object implements IStructure
 
 		} else {
 			if (!isset($this->structure['belongsTo'][$table])) {
-				return array();
+				return [];
 			}
 			return $this->structure['belongsTo'][$table];
 		}
@@ -152,7 +154,7 @@ class Structure extends Nette\Object implements IStructure
 			return;
 		}
 
-		$this->structure = $this->cache->load('structure', array($this, 'loadStructure'));
+		$this->structure = $this->cache->load('structure', [$this, 'loadStructure']);
 	}
 
 
@@ -163,7 +165,7 @@ class Structure extends Nette\Object implements IStructure
 	{
 		$driver = $this->connection->getSupplementalDriver();
 
-		$structure = array();
+		$structure = [];
 		$structure['tables'] = $driver->getTables();
 
 		foreach ($structure['tables'] as $tablePair) {
@@ -198,7 +200,7 @@ class Structure extends Nette\Object implements IStructure
 
 	protected function analyzePrimaryKey(array $columns)
 	{
-		$primary = array();
+		$primary = [];
 		foreach ($columns as $column) {
 			if ($column['primary']) {
 				$primary[] = $column['name'];
@@ -217,13 +219,14 @@ class Structure extends Nette\Object implements IStructure
 
 	protected function analyzeForeignKeys(& $structure, $table)
 	{
+		$lowerTable = strtolower($table);
 		foreach ($this->connection->getSupplementalDriver()->getForeignKeys($table) as $row) {
-			$structure['belongsTo'][strtolower($table)][$row['local']] = $row['table'];
+			$structure['belongsTo'][$lowerTable][$row['local']] = $row['table'];
 			$structure['hasMany'][strtolower($row['table'])][$table][] = $row['local'];
 		}
 
-		if (isset($structure['belongsTo'][$table])) {
-			uksort($structure['belongsTo'][$table], function ($a, $b) {
+		if (isset($structure['belongsTo'][$lowerTable])) {
+			uksort($structure['belongsTo'][$lowerTable], function ($a, $b) {
 				return strlen($a) - strlen($b);
 			});
 		}

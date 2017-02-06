@@ -16,6 +16,7 @@ use Nette;
  */
 class Helpers
 {
+	use Nette\StaticClass;
 
 	/**
 	 * Expands %placeholders%.
@@ -28,7 +29,7 @@ class Helpers
 	public static function expand($var, array $params, $recursive = FALSE)
 	{
 		if (is_array($var)) {
-			$res = array();
+			$res = [];
 			foreach ($var as $key => $val) {
 				$res[$key] = self::expand($val, $params, $recursive);
 			}
@@ -60,7 +61,7 @@ class Helpers
 					throw new Nette\InvalidArgumentException("Missing parameter '$part'.", 0, $e);
 				}
 				if ($recursive) {
-					$val = self::expand($val, $params, (is_array($recursive) ? $recursive : array()) + array($part => 1));
+					$val = self::expand($val, $params, (is_array($recursive) ? $recursive : []) + [$part => 1]);
 				}
 				if (strlen($part) + 2 === strlen($var)) {
 					return $val;
@@ -83,19 +84,19 @@ class Helpers
 	{
 		$optCount = 0;
 		$num = -1;
-		$res = array();
+		$res = [];
 		$methodName = ($method instanceof \ReflectionMethod ? $method->getDeclaringClass()->getName() . '::' : '')
 			. $method->getName() . '()';
 
 		foreach ($method->getParameters() as $num => $parameter) {
-			if (array_key_exists($num, $arguments)) {
-				$res[$num] = $arguments[$num];
-				unset($arguments[$num]);
+			if (!$parameter->isVariadic() && array_key_exists($parameter->getName(), $arguments)) {
+				$res[$num] = $arguments[$parameter->getName()];
+				unset($arguments[$parameter->getName()], $arguments[$num]);
 				$optCount = 0;
 
-			} elseif (array_key_exists($parameter->getName(), $arguments)) {
-				$res[$num] = $arguments[$parameter->getName()];
-				unset($arguments[$parameter->getName()]);
+			} elseif (array_key_exists($num, $arguments)) {
+				$res[$num] = $arguments[$num];
+				unset($arguments[$num]);
 				$optCount = 0;
 
 			} elseif (($class = PhpReflection::getParameterType($parameter)) && !PhpReflection::isBuiltinType($class)) {
@@ -104,8 +105,7 @@ class Helpers
 					if ($parameter->allowsNull()) {
 						$optCount++;
 					} elseif (class_exists($class) || interface_exists($class)) {
-						$rc = new \ReflectionClass($class);
-						if ($class !== ($hint = $rc->getName())) {
+						if ($class !== ($hint = (new \ReflectionClass($class))->getName())) {
 							throw new ServiceCreationException("Service of type {$class} needed by $methodName not found, did you mean $hint?");
 						}
 						throw new ServiceCreationException("Service of type {$class} needed by $methodName not found. Did you register it in configuration file?");
@@ -119,8 +119,8 @@ class Helpers
 					$optCount = 0;
 				}
 
-			} elseif ($parameter->isOptional() || $parameter->isDefaultValueAvailable()) {
-				// !optional + defaultAvailable = func($a = NULL, $b) since 5.3.17 & 5.4.7
+			} elseif (($class && $parameter->allowsNull()) || $parameter->isOptional() || $parameter->isDefaultValueAvailable()) {
+				// !optional + defaultAvailable = func($a = NULL, $b) since 5.4.7
 				// optional + !defaultAvailable = i.e. Exception::__construct, mysqli::mysqli, ...
 				$res[$num] = $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : NULL;
 				$optCount++;
@@ -141,6 +141,54 @@ class Helpers
 		}
 
 		return $optCount ? array_slice($res, 0, -$optCount) : $res;
+	}
+
+
+	/**
+	 * Removes ... and process constants recursively.
+	 * @return array
+	 */
+	public static function filterArguments(array $args)
+	{
+		foreach ($args as $k => $v) {
+			if ($v === '...') {
+				unset($args[$k]);
+			} elseif (is_string($v) && preg_match('#^[\w\\\\]*::[A-Z][A-Z0-9_]*\z#', $v, $m)) {
+				$args[$k] = constant(ltrim($v, ':'));
+			} elseif (is_array($v)) {
+				$args[$k] = self::filterArguments($v);
+			} elseif ($v instanceof Statement) {
+				$tmp = self::filterArguments([$v->getEntity()]);
+				$args[$k] = new Statement($tmp[0], self::filterArguments($v->arguments));
+			}
+		}
+		return $args;
+	}
+
+
+	/**
+	 * Replaces @extension with real extension name in service definition.
+	 * @param  mixed
+	 * @param  string
+	 * @return mixed
+	 */
+	public static function prefixServiceName($config, $namespace)
+	{
+		if (is_string($config)) {
+			if (strncmp($config, '@extension.', 10) === 0) {
+				$config = '@' . $namespace . '.' . substr($config, 11);
+			}
+		} elseif ($config instanceof Statement) {
+			return new Statement(
+				self::prefixServiceName($config->getEntity(), $namespace),
+				self::prefixServiceName($config->arguments, $namespace)
+			);
+		} elseif (is_array($config)) {
+			foreach ($config as & $val) {
+				$val = self::prefixServiceName($val, $namespace);
+			}
+		}
+		return $config;
 	}
 
 }

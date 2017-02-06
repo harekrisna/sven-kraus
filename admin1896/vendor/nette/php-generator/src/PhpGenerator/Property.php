@@ -13,8 +13,10 @@ use Nette;
 /**
  * Class property description.
  */
-class Property extends Nette\Object
+class Property
 {
+	use Nette\SmartObject;
+
 	/** @var string */
 	private $name = '';
 
@@ -27,8 +29,8 @@ class Property extends Nette\Object
 	/** @var string  public|protected|private */
 	private $visibility = 'public';
 
-	/** @var string[] */
-	private $documents = array();
+	/** @var string|NULL */
+	private $comment;
 
 
 	/**
@@ -41,7 +43,7 @@ class Property extends Nette\Object
 		$prop->value = isset($defaults[$prop->name]) ? $defaults[$prop->name] : NULL;
 		$prop->static = $from->isStatic();
 		$prop->visibility = $from->isPrivate() ? 'private' : ($from->isProtected() ? 'protected' : 'public');
-		$prop->documents = $from->getDocComment() ? array(preg_replace('#^\s*\* ?#m', '', trim($from->getDocComment(), "/* \r\n\t"))) : array();
+		$prop->comment = $from->getDocComment() ? preg_replace('#^\s*\* ?#m', '', trim($from->getDocComment(), "/* \r\n\t")) : NULL;
 		return $prop;
 	}
 
@@ -55,10 +57,7 @@ class Property extends Nette\Object
 	}
 
 
-	/**
-	 * @param  string  without $
-	 * @return self
-	 */
+	/** @deprecated */
 	public function setName($name)
 	{
 		$this->name = (string) $name;
@@ -120,7 +119,7 @@ class Property extends Nette\Object
 	 */
 	public function setVisibility($val)
 	{
-		if (!in_array($val, array('public', 'protected', 'private'), TRUE)) {
+		if (!in_array($val, ['public', 'protected', 'private'], TRUE)) {
 			throw new Nette\InvalidArgumentException('Argument must be public|protected|private.');
 		}
 		$this->visibility = (string) $val;
@@ -138,22 +137,22 @@ class Property extends Nette\Object
 
 
 	/**
-	 * @param  string[]
+	 * @param  string|NULL
 	 * @return self
 	 */
-	public function setDocuments(array $s)
+	public function setComment($val)
 	{
-		$this->documents = $s;
+		$this->comment = $val ? (string) $val : NULL;
 		return $this;
 	}
 
 
 	/**
-	 * @return string[]
+	 * @return string|NULL
 	 */
-	public function getDocuments()
+	public function getComment()
 	{
-		return $this->documents;
+		return $this->comment;
 	}
 
 
@@ -161,10 +160,34 @@ class Property extends Nette\Object
 	 * @param  string
 	 * @return self
 	 */
+	public function addComment($val)
+	{
+		$this->comment .= $this->comment ? "\n$val" : $val;
+		return $this;
+	}
+
+
+	/** @deprecated */
+	public function setDocuments(array $s)
+	{
+		trigger_error(__METHOD__ . '() is deprecated, use similar setComment()', E_USER_DEPRECATED);
+		return $this->setComment(implode("\n", $s));
+	}
+
+
+	/** @deprecated */
+	public function getDocuments()
+	{
+		trigger_error(__METHOD__ . '() is deprecated, use similar getComment()', E_USER_DEPRECATED);
+		return $this->comment ? [$this->comment] : [];
+	}
+
+
+	/** @deprecated */
 	public function addDocument($s)
 	{
-		$this->documents[] = (string) $s;
-		return $this;
+		trigger_error(__METHOD__ . '() is deprecated, use addComment()', E_USER_DEPRECATED);
+		return $this->addComment($s);
 	}
 
 }

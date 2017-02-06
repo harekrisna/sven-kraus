@@ -83,11 +83,10 @@ class RouteList extends Nette\Utils\ArrayList implements Nette\Application\IRout
 	}
 
 
-	/** @internal */
 	public function warmupCache()
 	{
-		$routes = array();
-		$routes['*'] = array();
+		$routes = [];
+		$routes['*'] = [];
 
 		foreach ($this as $route) {
 			$presenters = $route instanceof Route && is_array($tmp = $route->getTargetPresenters())

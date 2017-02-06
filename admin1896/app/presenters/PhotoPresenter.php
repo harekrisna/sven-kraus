@@ -53,8 +53,8 @@ final class PhotoPresenter extends BasePresenter {
 		$fileTypes = array('jpg', 'jpeg', 'gif', 'png'); // Allowed file extensions
    		
 		$verifyToken = md5('unique_salt' . $_POST['timestamp']);
-		
-		if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
+		$token = md5($_POST['token']);
+		if (!empty($_FILES) && $token == $verifyToken) {
 			
 			$fileParts = pathinfo($_FILES['Filedata']['name']);
 			

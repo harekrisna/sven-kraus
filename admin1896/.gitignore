@@ -1,8 +1,0 @@
-temp/
-log/
-node_modules/
-npm-debug.log
-bin.txt
-temp/btfj.dat
-app/config/config.local.neon
-log/exception.log

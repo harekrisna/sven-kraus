@@ -1,0 +1,10 @@
+parameters:
+
+database:
+	remote:
+		dsn: 'mysql:host=innodb.endora.cz;dbname=svenkraus'
+		user: doma
+		password: basic16
+		options:
+			lazy: yes
+			

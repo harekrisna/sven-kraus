@@ -14,8 +14,10 @@ use Nette\Caching\Cache;
 /**
  * Memcached storage using memcached extension.
  */
-class NewMemcachedStorage extends Nette\Object implements Nette\Caching\IStorage
+class NewMemcachedStorage implements Nette\Caching\IStorage, Nette\Caching\IBulkReader
 {
+	use Nette\SmartObject;
+
 	/** @internal cache structure */
 	const META_CALLBACKS = 'callbacks',
 		META_DATA = 'data',
@@ -109,6 +111,39 @@ class NewMemcachedStorage extends Nette\Object implements Nette\Caching\IStorage
 
 
 	/**
+	 * Reads from cache in bulk.
+	 * @param  string key
+	 * @return array key => value pairs, missing items are omitted
+	 */
+	public function bulkRead(array $keys)
+	{
+		$prefixedKeys = array_map(function ($key) {
+			return urlencode($this->prefix . $key);
+		}, $keys);
+		$keys = array_combine($prefixedKeys, $keys);
+		$metas = $this->memcached->getMulti($prefixedKeys);
+		$result = [];
+		$deleteKeys = [];
+		foreach ($metas as $prefixedKey => $meta) {
+			if (!empty($meta[self::META_CALLBACKS]) && !Cache::checkCallbacks($meta[self::META_CALLBACKS])) {
+				$deleteKeys[] = $prefixedKey;
+			} else {
+				$result[$keys[$prefixedKey]] = $meta[self::META_DATA];
+			}
+
+			if (!empty($meta[self::META_DELTA])) {
+				$this->memcached->replace($prefixedKey, $meta, $meta[self::META_DELTA] + time());
+			}
+		}
+		if (!empty($deleteKeys)) {
+			$this->memcached->deleteMulti($deleteKeys, 0);
+		}
+
+		return $result;
+	}
+
+
+	/**
 	 * Prevents item reading and writing. Lock is released by write() or remove().
 	 * @param  string key
 	 * @return void
@@ -132,9 +167,9 @@ class NewMemcachedStorage extends Nette\Object implements Nette\Caching\IStorage
 		}
 
 		$key = urlencode($this->prefix . $key);
-		$meta = array(
+		$meta = [
 			self::META_DATA => $data,
-		);
+		];
 
 		$expire = 0;
 		if (isset($dp[Cache::EXPIRATION])) {

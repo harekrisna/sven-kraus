@@ -15,47 +15,57 @@ use Nette;
  */
 class HttpExtension extends Nette\DI\CompilerExtension
 {
-	public $defaults = array(
-		'proxy' => array(),
-		'headers' => array(
+	public $defaults = [
+		'proxy' => [],
+		'headers' => [
 			'X-Powered-By' => 'Nette Framework',
 			'Content-Type' => 'text/html; charset=utf-8',
-		),
+		],
 		'frames' => 'SAMEORIGIN', // X-Frame-Options
-	);
+	];
+
+	/** @var bool */
+	private $cliMode;
+
+
+	public function __construct($cliMode = FALSE)
+	{
+		$this->cliMode = $cliMode;
+	}
 
 
 	public function loadConfiguration()
 	{
-		$container = $this->getContainerBuilder();
+		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
 
-		$container->addDefinition($this->prefix('requestFactory'))
-			->setClass('Nette\Http\RequestFactory')
-			->addSetup('setProxy', array($config['proxy']));
+		$builder->addDefinition($this->prefix('requestFactory'))
+			->setClass(Nette\Http\RequestFactory::class)
+			->addSetup('setProxy', [$config['proxy']]);
 
-		$container->addDefinition($this->prefix('request'))
-			->setClass('Nette\Http\Request')
+		$builder->addDefinition($this->prefix('request'))
+			->setClass(Nette\Http\Request::class)
 			->setFactory('@Nette\Http\RequestFactory::createHttpRequest');
 
-		$container->addDefinition($this->prefix('response'))
-			->setClass('Nette\Http\Response');
+		$builder->addDefinition($this->prefix('response'))
+			->setClass(Nette\Http\Response::class);
 
-		$container->addDefinition($this->prefix('context'))
-			->setClass('Nette\Http\Context');
+		$builder->addDefinition($this->prefix('context'))
+			->setClass(Nette\Http\Context::class)
+			->addSetup('::trigger_error', ['Service http.context is deprecated.', E_USER_DEPRECATED]);
 
 		if ($this->name === 'http') {
-			$container->addAlias('nette.httpRequestFactory', $this->prefix('requestFactory'));
-			$container->addAlias('nette.httpContext', $this->prefix('context'));
-			$container->addAlias('httpRequest', $this->prefix('request'));
-			$container->addAlias('httpResponse', $this->prefix('response'));
+			$builder->addAlias('nette.httpRequestFactory', $this->prefix('requestFactory'));
+			$builder->addAlias('nette.httpContext', $this->prefix('context'));
+			$builder->addAlias('httpRequest', $this->prefix('request'));
+			$builder->addAlias('httpResponse', $this->prefix('response'));
 		}
 	}
 
 
 	public function afterCompile(Nette\PhpGenerator\ClassType $class)
 	{
-		if (PHP_SAPI === 'cli') {
+		if ($this->cliMode) {
 			return;
 		}
 
@@ -69,12 +79,12 @@ class HttpExtension extends Nette\DI\CompilerExtension
 			} elseif (preg_match('#^https?:#', $frames)) {
 				$frames = "ALLOW-FROM $frames";
 			}
-			$initialize->addBody('header(?);', array("X-Frame-Options: $frames"));
+			$initialize->addBody('header(?);', ["X-Frame-Options: $frames"]);
 		}
 
 		foreach ($config['headers'] as $key => $value) {
 			if ($value != NULL) { // intentionally ==
-				$initialize->addBody('header(?);', array("$key: $value"));
+				$initialize->addBody('header(?);', ["$key: $value"]);
 			}
 		}
 	}

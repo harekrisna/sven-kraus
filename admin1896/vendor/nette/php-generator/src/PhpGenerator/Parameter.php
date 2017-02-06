@@ -13,8 +13,10 @@ use Nette;
 /**
  * Method parameter description.
  */
-class Parameter extends Nette\Object
+class Parameter
 {
+	use Nette\SmartObject;
+
 	/** @var string */
 	private $name = '';
 
@@ -40,10 +42,8 @@ class Parameter extends Nette\Object
 		$param->reference = $from->isPassedByReference();
 		if (PHP_VERSION_ID >= 70000) {
 			$param->typeHint = $from->hasType() ? (string) $from->getType() : NULL;
-		} elseif ($from->isArray()) {
-			$param->typeHint = 'array';
-		} elseif (PHP_VERSION_ID >= 50400 && $from->isCallable()) {
-			$param->typeHint = 'callable';
+		} elseif ($from->isArray() || $from->isCallable()) {
+			$param->typeHint = $from->isArray() ? 'array' : 'callable';
 		} else {
 			try {
 				$param->typeHint = $from->getClass() ? $from->getClass()->getName() : NULL;
@@ -55,8 +55,8 @@ class Parameter extends Nette\Object
 				}
 			}
 		}
-		$param->optional = PHP_VERSION_ID < 50407 ? $from->isOptional() || ($param->typeHint && $from->allowsNull()) : $from->isDefaultValueAvailable();
-		$param->defaultValue = (PHP_VERSION_ID === 50316 ? $from->isOptional() : $from->isDefaultValueAvailable()) ? $from->getDefaultValue() : NULL;
+		$param->optional = $from->isDefaultValueAvailable();
+		$param->defaultValue = $from->isDefaultValueAvailable() ? $from->getDefaultValue() : NULL;
 		return $param;
 	}
 
@@ -70,10 +70,7 @@ class Parameter extends Nette\Object
 	}
 
 
-	/**
-	 * @param  string  without $
-	 * @return self
-	 */
+	/** @deprecated */
 	public function setName($name)
 	{
 		$this->name = (string) $name;

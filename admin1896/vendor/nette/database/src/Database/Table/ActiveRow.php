@@ -98,7 +98,7 @@ class ActiveRow implements \IteratorAggregate, IRow
 			}
 
 		} else {
-			$primaryVal = array();
+			$primaryVal = [];
 			foreach ($primary as $key) {
 				if (!isset($this->data[$key])) {
 					if ($need) {
@@ -135,7 +135,7 @@ class ActiveRow implements \IteratorAggregate, IRow
 	{
 		$row = $this->table->getReferencedTable($this, $key, $throughColumn);
 		if ($row === FALSE) {
-			throw new Nette\MemberAccessException("No reference found for \${$this->table->name}->ref($key).");
+			throw new Nette\MemberAccessException("No reference found for \${$this->table->getName()}->ref($key).");
 		}
 
 		return $row;
@@ -152,7 +152,7 @@ class ActiveRow implements \IteratorAggregate, IRow
 	{
 		$groupedSelection = $this->table->getReferencingTable($key, $throughColumn, $this[$this->table->getPrimary()]);
 		if (!$groupedSelection) {
-			throw new Nette\MemberAccessException("No reference found for \${$this->table->name}->related($key).");
+			throw new Nette\MemberAccessException("No reference found for \${$this->table->getName()}->related($key).");
 		}
 
 		return $groupedSelection;
@@ -172,7 +172,7 @@ class ActiveRow implements \IteratorAggregate, IRow
 
 		$primary = $this->getPrimary();
 		if (!is_array($primary)) {
-			$primary = array($this->table->getPrimary() => $primary);
+			$primary = [$this->table->getPrimary() => $primary];
 		}
 
 		$selection = $this->table->createSelectionInstance()
@@ -323,7 +323,7 @@ class ActiveRow implements \IteratorAggregate, IRow
 	{
 		if ($this->table->accessColumn($key, $selectColumn) && !$this->dataRefreshed) {
 			if (!isset($this->table[$this->getSignature()])) {
-				throw new Nette\InvalidStateException('Database refetch failed; row does not exist!');
+				throw new Nette\InvalidStateException("Database refetch failed; row with signature '{$this->getSignature()}' does not exist!");
 			}
 			$this->data = $this->table[$this->getSignature()]->data;
 			$this->dataRefreshed = TRUE;

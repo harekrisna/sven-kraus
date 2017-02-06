@@ -29,7 +29,7 @@
                     <h3><strong>{$record->title}</strong></h3>
                     {$record->description_list}
                     <hr />
-                    {!$record->description_detail|nl2br}
+                    {$record->description_detail|breaklines|noescape}
                 </div>
                 <div class="clearfix"></div>
             </div>

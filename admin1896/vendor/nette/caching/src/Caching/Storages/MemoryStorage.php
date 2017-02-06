@@ -13,10 +13,12 @@ use Nette;
 /**
  * Memory cache storage.
  */
-class MemoryStorage extends Nette\Object implements Nette\Caching\IStorage
+class MemoryStorage implements Nette\Caching\IStorage
 {
+	use Nette\SmartObject;
+
 	/** @var array */
-	private $data = array();
+	private $data = [];
 
 
 	/**
@@ -72,7 +74,7 @@ class MemoryStorage extends Nette\Object implements Nette\Caching\IStorage
 	public function clean(array $conditions)
 	{
 		if (!empty($conditions[Nette\Caching\Cache::ALL])) {
-			$this->data = array();
+			$this->data = [];
 		}
 	}
 

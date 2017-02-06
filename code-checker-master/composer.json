@@ -1,0 +1,21 @@
+{
+	"name": "nette/code-checker",
+	"description": "A simple tool to check source code against a set of coding standards.",
+	"type": "project",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "David Grudl",
+			"homepage": "https://davidgrudl.com"
+		}
+	],
+	"require": {
+		"php": ">= 5.4",
+		"nette/command-line": "~1.0",
+		"nette/utils": "~2.3",
+		"nette/finder": "~2.3",
+		"nette/neon": "~2.3",
+		"latte/latte": "~2.3"
+	},
+	"bin": ["src/code-checker.php"]
+}

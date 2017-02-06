@@ -2,7 +2,11 @@
 ==============================================
 
 [![Downloads this Month](https://img.shields.io/packagist/dm/tracy/tracy.svg)](https://packagist.org/packages/tracy/tracy)
-[![Build Status](https://travis-ci.org/nette/tracy.svg?branch=v2.3)](https://travis-ci.org/nette/tracy)
+[![Build Status](https://travis-ci.org/nette/tracy.svg?branch=master)](https://travis-ci.org/nette/tracy)
+[![Build Status Windows](https://ci.appveyor.com/api/projects/status/github/nette/tracy?branch=master&svg=true)](https://ci.appveyor.com/project/dg/tracy/branch/master)
+[![Latest Stable Version](https://poser.pugx.org/tracy/tracy/v/stable)](https://github.com/nette/tracy/releases)
+[![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/nette/tracy/blob/master/license.md)
+[![Join the chat at https://gitter.im/nette/tracy](https://badges.gitter.im/nette/tracy.svg)](https://gitter.im/nette/tracy)
 
 Tracy library is a useful helper for everyday PHP programmers. It helps you to:
 
@@ -27,7 +31,7 @@ The best way how to install Tracy is to [download a latest package](https://gith
 php composer.phar require tracy/tracy
 ```
 
-Tracy requires PHP version 5.3.0 or newer (master requires PHP 5.6).
+Tracy requires PHP version 5.3.0 or newer (master requires PHP 5.4.4).
 
 
 Usage
@@ -98,7 +102,7 @@ Debugger::$strictMode = TRUE;
 
 [![Notice rendered by Tracy](https://nette.github.io/tracy/images/tracy-notice.png)](https://nette.github.io/tracy/tracy-notice.html)
 
-If your site uses Content Security Policy, you'll need to add `'unsafe-inline'` to `style-src`, and `'unsafe-inline'` & `'unsafe-eval'` to `script-src` for Tracy to work properly. Avoid adding these in production mode, if you can.
+If your site uses Content Security Policy, you'll need to add `'unsafe-inline'` to `style-src`, and `'unsafe-inline'` & `'unsafe-eval'` to `script-src` for Tracy to work properly. Avoid adding these in production mode, if you can. Since version 2.4.0 Tracy also requires `'self'` (or the origin itself) in `script-src`.
 
 
 Production mode and error logging
@@ -167,11 +171,11 @@ generates the output:
 
 ![dump](https://nette.github.io/tracy/images/tracy-dump.png)
 
-You can also change the nesting depth by `Debugger::$maxDepth` and displayed strings length by `Debugger::$maxLen`. Naturally, lower values accelerate Tracy rendering.
+You can also change the nesting depth by `Debugger::$maxDepth` and displayed strings length by `Debugger::$maxLength`. Naturally, lower values accelerate Tracy rendering.
 
 ```php
 Debugger::$maxDepth = 2; // default: 3
-Debugger::$maxLen = 50; // default: 150
+Debugger::$maxLength = 50; // default: 150
 ```
 
 The `dump()` function can display other useful information. `Tracy\Dumper::LOCATION_SOURCE` adds tooltip with path to the file, where the function was called. `Tracy\Dumper::LOCATION_LINK` adds a link to the file. `Tracy\Dumper::LOCATION_CLASS` adds a tooltip to every dumped object containing path to the file, in which the object's class is defined. All these constants can be set in `Debugger::$showLocation` variable before calling the `dump()`. You can set multiple values at once using the `|` operator.

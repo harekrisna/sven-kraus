@@ -25,16 +25,16 @@ class Message extends MimePart
 		LOW = 5;
 
 	/** @var array */
-	public static $defaultHeaders = array(
+	public static $defaultHeaders = [
 		'MIME-Version' => '1.0',
 		'X-Mailer' => 'Nette Framework',
-	);
+	];
 
 	/** @var array */
-	private $attachments = array();
+	private $attachments = [];
 
 	/** @var array */
-	private $inlines = array();
+	private $inlines = [];
 
 	/** @var mixed */
 	private $html;
@@ -155,9 +155,9 @@ class Message extends MimePart
 	private function formatEmail($email, $name)
 	{
 		if (!$name && preg_match('#^(.+) +<(.*)>\z#', $email, $matches)) {
-			return array($matches[2] => $matches[1]);
+			return [$matches[2] => $matches[1]];
 		} else {
-			return array($email => $name);
+			return [$email => $name];
 		}
 	}
 
@@ -214,14 +214,10 @@ class Message extends MimePart
 	 */
 	public function setHtmlBody($html, $basePath = NULL)
 	{
-		if ($basePath === NULL && ($html instanceof Nette\Templating\IFileTemplate || $html instanceof Nette\Application\UI\ITemplate)) {
-			$basePath = dirname($html->getFile());
-			$bc = TRUE;
-		}
 		$html = (string) $html;
 
 		if ($basePath) {
-			$cids = array();
+			$cids = [];
 			$matches = Strings::matchAll(
 				$html,
 				'#
@@ -230,14 +226,12 @@ class Message extends MimePart
 					|<[^<>]+\s style\s*=\s* ["\'][^"\'>]+[:\s] url\(
 					|<style[^>]*>[^<]+ [:\s] url\()
 					(["\']?)(?![a-z]+:|[/\\#])([^"\'>)\s]+)
+					|\[\[ ([\w()+./@~-]+) \]\]
 				#ix',
 				PREG_OFFSET_CAPTURE
 			);
-			if ($matches && isset($bc)) {
-				trigger_error(__METHOD__ . '() missing second argument with image base path.', E_USER_WARNING);
-			}
 			foreach (array_reverse($matches) as $m) {
-				$file = rtrim($basePath, '/\\') . '/' . urldecode($m[3][0]);
+				$file = rtrim($basePath, '/\\') . '/' . (isset($m[4]) ? $m[4][0] : urldecode($m[3][0]));
 				if (!isset($cids[$file])) {
 					$cids[$file] = substr($this->addEmbeddedFile($file)->getHeader('Content-ID'), 1, -1);
 				}
@@ -290,6 +284,18 @@ class Message extends MimePart
 
 
 	/**
+	 * Adds inlined Mime Part.
+	 * @param  MimePart
+	 * @return self
+	 */
+	public function addInlinePart(MimePart $part)
+	{
+		$this->inlines[] = $part;
+		return $this;
+	}
+
+
+	/**
 	 * Adds attachment.
 	 * @param  string
 	 * @param  string
@@ -320,7 +326,7 @@ class Message extends MimePart
 	{
 		$part = new MimePart;
 		if ($content === NULL) {
-			$content = @file_get_contents($file); // intentionally @
+			$content = @file_get_contents($file); // @ is escalated to exception
 			if ($content === FALSE) {
 				throw new Nette\FileNotFoundException("Unable to read file '$file'.");
 			}
@@ -402,13 +408,13 @@ class Message extends MimePart
 	 */
 	protected function buildText($html)
 	{
-		$text = Strings::replace($html, array(
+		$text = Strings::replace($html, [
 			'#<(style|script|head).*</\\1>#Uis' => '',
 			'#<t[dh][ >]#i' => ' $0',
-			'#<a [^>]*href=(?|"([^"]+)"|\'([^\']+)\')[^>]*>(.*?)</a>#i' =>  '$2 &lt;$1&gt;',
+			'#<a\s[^>]*href=(?|"([^"]+)"|\'([^\']+)\')[^>]*>(.*?)</a>#is' =>  '$2 &lt;$1&gt;',
 			'#[\r\n]+#' => ' ',
 			'#<(/?p|/?h\d|li|br|/tr)[ >/]#i' => "\n$0",
-		));
+		]);
 		$text = html_entity_decode(strip_tags($text), ENT_QUOTES, 'UTF-8');
 		$text = Strings::replace($text, '#[ \t]+#', ' ');
 		return trim($text);

@@ -14,8 +14,10 @@ use Nette\Caching\Cache;
 /**
  * Cache file storage.
  */
-class FileStorage extends Nette\Object implements Nette\Caching\IStorage
+class FileStorage implements Nette\Caching\IStorage
 {
+	use Nette\SmartObject;
+
 	/**
 	 * Atomic thread safe logic:
 	 *
@@ -72,7 +74,7 @@ class FileStorage extends Nette\Object implements Nette\Caching\IStorage
 		$this->journal = $journal;
 
 		if (mt_rand() / mt_getrandmax() < static::$gcProbability) {
-			$this->clean(array());
+			$this->clean([]);
 		}
 	}
 
@@ -162,9 +164,9 @@ class FileStorage extends Nette\Object implements Nette\Caching\IStorage
 	 */
 	public function write($key, $data, array $dp)
 	{
-		$meta = array(
+		$meta = [
 			self::META_TIME => microtime(),
-		);
+		];
 
 		if (isset($dp[Cache::EXPIRATION])) {
 			if (empty($dp[Cache::SLIDING])) {
@@ -215,19 +217,18 @@ class FileStorage extends Nette\Object implements Nette\Caching\IStorage
 		$head = serialize($meta) . '?>';
 		$head = '<?php //netteCache[01]' . str_pad((string) strlen($head), 6, '0', STR_PAD_LEFT) . $head;
 		$headLen = strlen($head);
-		$dataLen = strlen($data);
 
 		do {
-			if (fwrite($handle, str_repeat("\x00", $headLen), $headLen) !== $headLen) {
+			if (fwrite($handle, str_repeat("\x00", $headLen)) !== $headLen) {
 				break;
 			}
 
-			if (fwrite($handle, $data, $dataLen) !== $dataLen) {
+			if (fwrite($handle, $data) !== strlen($data)) {
 				break;
 			}
 
 			fseek($handle, 0);
-			if (fwrite($handle, $head, $headLen) !== $headLen) {
+			if (fwrite($handle, $head) !== $headLen) {
 				break;
 			}
 
@@ -326,12 +327,10 @@ class FileStorage extends Nette\Object implements Nette\Caching\IStorage
 		if ($head && strlen($head) === self::META_HEADER_LEN) {
 			$size = (int) substr($head, -6);
 			$meta = stream_get_contents($handle, $size, self::META_HEADER_LEN);
-			$meta = @unserialize($meta); // intentionally @
-			if (is_array($meta)) {
-				$meta[self::FILE] = $file;
-				$meta[self::HANDLE] = $handle;
-				return $meta;
-			}
+			$meta = unserialize($meta);
+			$meta[self::FILE] = $file;
+			$meta[self::HANDLE] = $handle;
+			return $meta;
 		}
 
 		flock($handle, LOCK_UN);
@@ -354,7 +353,7 @@ class FileStorage extends Nette\Object implements Nette\Caching\IStorage
 		if (empty($meta[self::META_SERIALIZED])) {
 			return $data;
 		} else {
-			return @unserialize($data); // intentionally @
+			return unserialize($data);
 		}
 	}
 

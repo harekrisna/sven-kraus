@@ -7,8 +7,8 @@
 
 namespace Nette\PhpGenerator;
 
+use Nette;
 use Nette\InvalidStateException;
-use Nette\Object;
 use Nette\Utils\Strings;
 
 
@@ -20,8 +20,10 @@ use Nette\Utils\Strings;
  * - variable amount of use statements
  * - one or more class declarations
  */
-class PhpNamespace extends Object
+class PhpNamespace
 {
+	use Nette\SmartObject;
+
 	/** @var string */
 	private $name;
 
@@ -29,10 +31,10 @@ class PhpNamespace extends Object
 	private $bracketedSyntax = FALSE;
 
 	/** @var string[] */
-	private $uses = array();
+	private $uses = [];
 
 	/** @var ClassType[] */
-	private $classes = array();
+	private $classes = [];
 
 
 	public function __construct($name = NULL)
@@ -41,10 +43,7 @@ class PhpNamespace extends Object
 	}
 
 
-	/**
-	 * @param  string|NULL
-	 * @return self
-	 */
+	/** @deprecated */
 	public function setName($name)
 	{
 		$this->name = (string) $name;
@@ -134,7 +133,7 @@ class PhpNamespace extends Object
 	 */
 	public function unresolveName($name)
 	{
-		if (in_array(strtolower($name), array('self', 'parent', 'array', 'callable', 'string', 'bool', 'float', 'int', ''), TRUE)) {
+		if (in_array(strtolower($name), ['self', 'parent', 'array', 'callable', 'string', 'bool', 'float', 'int', ''], TRUE)) {
 			return $name;
 		}
 		$name = ltrim($name, '\\');
@@ -205,7 +204,7 @@ class PhpNamespace extends Object
 	 */
 	public function __toString()
 	{
-		$uses = array();
+		$uses = [];
 		asort($this->uses);
 		foreach ($this->uses as $alias => $name) {
 			$useNamespace = Helpers::extractNamespace($name);

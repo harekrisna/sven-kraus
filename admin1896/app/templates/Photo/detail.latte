@@ -85,13 +85,13 @@
         )},
     });
   	
-	{? $timestamp = time()}
+	{php $timestamp = time()}
 	$(function() {
 		$('#file_upload').uploadifive({
 			'auto'             : false,
 			'formData'         : {
 								   'timestamp' : {$timestamp},
-								   'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+								   'token'     : 'unique_salt' + {$timestamp},
 			                     },
 			'queueID'          : 'queue',
 			'buttonText' : '<span class="glyphicon glyphicon-picture" style="margin-right: 10px !important"></span> VYBRAT FOTKY',

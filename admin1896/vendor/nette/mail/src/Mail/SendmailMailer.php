@@ -13,8 +13,10 @@ use Nette;
 /**
  * Sends emails via the PHP internal mail() function.
  */
-class SendmailMailer extends Nette\Object implements IMailer
+class SendmailMailer implements IMailer
 {
+	use Nette\SmartObject;
+
 	/** @var string */
 	public $commandArgs;
 
@@ -32,12 +34,12 @@ class SendmailMailer extends Nette\Object implements IMailer
 
 		$parts = explode(Message::EOL . Message::EOL, $tmp->generateMessage(), 2);
 
-		$args = array(
+		$args = [
 			str_replace(Message::EOL, PHP_EOL, $mail->getEncodedHeader('To')),
 			str_replace(Message::EOL, PHP_EOL, $mail->getEncodedHeader('Subject')),
 			str_replace(Message::EOL, PHP_EOL, $parts[1]),
 			str_replace(Message::EOL, PHP_EOL, $parts[0]),
-		);
+		];
 		if ($this->commandArgs) {
 			$args[] = (string) $this->commandArgs;
 		}

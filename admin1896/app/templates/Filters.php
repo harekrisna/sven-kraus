@@ -34,20 +34,6 @@ class Filters extends Nette\Object {
             return $helper_tag . $year;
         }
 	}	
-	
-	public function verseReadable($abbreviation, $chapter, $verse) {
-		$string = $abbreviation;
-		if($chapter != "") {
-			$string .= substr($abbreviation, 0, 3) == "ŚB" ? "." : " ";
-			$string .= $chapter;
-			
-			if($verse != "") {
-				$string .= ".".$verse;
-			}
-		}
-
-	    return $string;
-	}
 
     public function decimalNumber($number) {
         if($number == NULL) {
