@@ -55,7 +55,7 @@ class ArtworkFormFactory extends Nette\Object {
 				$new_record = $this->artwork->insert($values->data);
 				$photos_folder = $new_record->id."_".Strings::webalize($new_record->title);
 				$this->artwork->update($new_record->id, ['photos_folder' => $photos_folder]);
-				$photos_folder = "./images/photos/".$photos_folder;
+				$photos_folder = "./images/artworks/".$photos_folder;
 				mkdir($photos_folder);
 				chmod($photos_folder, 0777);
 				mkdir($photos_folder."/photos");

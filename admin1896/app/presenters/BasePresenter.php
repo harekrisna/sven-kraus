@@ -17,6 +17,8 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 	protected $photo;
 	/** @var User */
 	protected $user;
+	/** @var News */
+	protected $news;	
 	
 	protected function startup() {
 		parent::startup();
@@ -27,8 +29,11 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
         
         $this->artwork = $this->context->getService('artwork');
         $this->photo = $this->context->getService('photo');
+        $this->news = $this->context->getService('news');
 	
 		$this->user = $this->getUser()->getIdentity();
+
+		\Forms\DatePicker\DatePicker::register();
 	}
 
 	public function flashMessage($message, $type = 'info') {

@@ -1,0 +1,132 @@
+{layout 'layout.latte'}
+{block head}
+{include parent}
+<link href="{$basePath}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="{$basePath}/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+{/block}
+{block content}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title empty">
+                </div>
+                <div class="ibox-content">
+                    {form form, class => "form-horizontal"}
+                        <div class="form-group">
+                            {label data-title, class => "col-sm-2 control-label" /}
+                            <div class="col-sm-10">
+                                <input n:name="data-title" n:class="form-control, large, $form['data-title']->error ? error" />
+                                {if $form['data-title']->error}{label data-title, class => "error" }{$form['data-title']->error}{/label}{/if}
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            {label data-date_from, class => "col-sm-2 control-label" /}
+                            <div class="col-sm-10">
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>{input data-date_from, class => "datepicker form-control small"}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {label data-date_to, class => "col-sm-2 control-label" /}
+                            <div class="col-sm-10">
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>{input data-date_to, class => "datepicker form-control small"}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            {label data-subtitle, class => "col-sm-2 control-label" /}
+                            <div class="col-sm-10">
+                                {input data-subtitle, class => "form-control large"}
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            {label data-description, class => "col-sm-2 control-label" /}
+                            <div class="col-sm-10">
+                                {input data-description, class => "form-control large"}
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            {label photo_file, class => "col-sm-2 control-label" /}
+                            <div class="col-sm-10">
+                                <div class="fileinput fileinput-new input-group large" data-provides="fileinput">
+                                    <div class="form-control large" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Vybrat soubor</span><span class="fileinput-exists">Změnit</span>{input photo_file, accept => "image/*"}</span>
+                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Odstranit</a>
+                                </div>
+                                {if $form['photo_file']->error}{label photo_file, class => "error" }{$form['photo_file']->error}{/label}{/if}
+                                <span n:if="isset($record->photo_file)"><strong>Aktuální: </strong><span class="photo_preview">{$record->photo_file}<span><img src="{$basePath}/images/news/previews/{$record->photo_file}" /></span></span></span>
+                                
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                            {if $presenter->getAction() == "edit"}
+                                {input edit, class => "btn btn-primary"}
+                            {else}
+                                {input add, class => "btn btn-primary"}
+                            {/if}
+                            </div>
+                        </div>
+                    {/form}
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
+{block scripts}    
+    <!-- Jquery Validate -->
+    <script src="{$basePath}/js/plugins/validate/jquery.validate.min.js"></script>
+
+    <!-- Date picker -->
+    <script src="{$basePath}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+    <!-- Jasny -->
+    <script src="{$basePath}/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $.fn.datepicker.dates['cs'] = {
+                days: ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
+                daysShort: ["Ned", "Pon", "Úte", "Stř", "Čtv", "Pát", "Sob"],
+                daysMin: ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"],
+                months: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
+                monthsShort: ["Led", "Úno", "Bře", "Dub", "Kvě", "Čer", "Čnc", "Srp", "Zář", "Říj", "Lis", "Pro"],
+                today: "Dnes",
+                clear: "Vymazat",
+                monthsTitle: "Měsíc",
+                weekStart: 1,
+                format: "dd.mm.yyyy"
+            };
+            $('div.input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                language: 'cs',
+            }); 
+
+            $('input.datepicker').keydown(function(event) {
+                if(event.keyCode == 8) {
+                    event.preventDefault();
+                    $(this).val("");
+                }
+            });
+
+			jQuery.extend(jQuery.validator.messages, {
+				required: "Toto pole je povinné.",
+                number: "Prosím zadejte validní číslo.",
+                min: "Prosím zadejte čílo větší než 0.",
+			});
+
+            $("#frm-form").validate();
+        }); 
+    </script>
+{/block}

@@ -16,7 +16,7 @@ use Latte;
 class ArtworkPresenter extends BasePresenter {
 	/** @var object */
     private $record;
-	/** @var Vehicle */
+	/** @var Artwork */
 	private $model;
 	/** @var ArtworkFormFactory @inject */
 	public $factory;
@@ -66,7 +66,7 @@ class ArtworkPresenter extends BasePresenter {
 				$form->getPresenter()->redirect('Artwork:add');
 			}
 			else {
-				$this->flashMessage("ArtworkW byl upraven", 'success');
+				$this->flashMessage("Artwork byl upraven", 'success');
 				$form->getPresenter()->redirect('Artwork:list');
 			}
 		};

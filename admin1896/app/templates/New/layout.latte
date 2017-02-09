@@ -1,0 +1,24 @@
+{layout '../@layout.latte'}
+{block main}
+		<div class="row wrapper border-bottom white-bg page-heading">
+		    <div class="col-lg-10">
+		        <h2 n:block="title">News</h2>
+                <ol class="breadcrumb">
+                    <li n:class="$presenter->isLinkCurrent('New:add') ? active"><a n:href="New:add">Přidat</a></li>
+                    <li n:class="$presenter->isLinkCurrent('New:list') ? active"><a n:href="New:list">Přehled</a></li>
+                </ol>
+		    </div>
+		</div>
+        <div n:if="$presenter->getAction() == 'list'" class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-md-3" style="height: 44px; margin-top: -5px;">
+                <ul class="list-group clear-list m-t">
+                    <li class="list-group-item fist-item">
+                        <a n:href="generateToWeb"><span class="label label-link icon-bigger"><span class="fa fa-cog"></span></span> Generovat novinky na web</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            {include content}            
+        </div>
+{/block}

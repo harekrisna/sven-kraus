@@ -25,10 +25,12 @@ services:
 	- App\Forms\FormFactory
 	- App\Forms\SignFormFactory
 	- App\Forms\ArtworkFormFactory
+	- App\Forms\NewFormFactory
 	
 	router: App\RouterFactory::createRouter
 	
 	artwork: App\Model\Artwork
 	photo: App\Model\Photo
+	news: App\Model\News
 	
 	filters: App\Templates\Filters

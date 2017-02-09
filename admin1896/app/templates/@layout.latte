@@ -48,6 +48,13 @@
 	                        <li n:class="$presenter->isLinkCurrent('Artwork:list') ? active"><a n:href="Artwork:list">Přehled</a></li>
 	                    </ul>
 	                </li>
+                    <li n:class="$presenter->isLinkCurrent('New:*') ? active">
+                        <a n:href="New:list" title="New"><i class="fa fa-star"></i><span class="nav-label">News</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li n:class="$presenter->isLinkCurrent('New:add') ? active"><a n:href="New:add">Přidat</a></li>
+                            <li n:class="$presenter->isLinkCurrent('New:list') ? active"><a n:href="New:list">Přehled</a></li>
+                        </ul>
+                    </li>
 	            </ul>
 	        </div>
 	    </nav>

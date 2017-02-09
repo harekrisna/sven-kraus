@@ -1,5 +1,11 @@
 .DS_Store
 artworks/*
 artworks/product/*
+news/*
+news/news/*
 admin1896/app/config/config.local.neon
-admin1896/temp/
+admin1896/log/*
+admin1896/temp/*
+admin1896/node_modules/*
+admin1896/www/images/artworks/*
+admin1896/www/images/news/*

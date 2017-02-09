@@ -8,28 +8,35 @@
 {/block}
 {block content}
 <div class="row">
-    <div n:snippet="artworks">
+    <div n:snippet="news">
         <div n:foreach="$records as $record" class="col-lg-6">
             <div class="contact-box list-box">
                 <div class="col-sm-4">
-                    <div class="position-label">#{$record->position}</div>
+                    <div class="position-label">#{$iterator->counter}</div>
                     <div class="text-center">
-                        {var $preview_photo = $record->related('photo')->order('position ASC')->fetch()}
-                        <img n:if="$preview_photo" alt="image" class="img-circle m-t-xs img-responsive img-preview" src="{$basePath}/images/artworks/{$record->photos_folder}/previews/{$preview_photo->file}">
+                        <img n:if="$record->photo_file" alt="image" class="img-circle m-t-xs img-responsive img-preview" src="{$basePath}/images/news/previews/{$record->photo_file}">
                     </div>
                 </div>
                 <div class="col-sm-8">
                     <div class="controls"> 
-                        <a class="up" n:if="$record->position > 1" n:href="updatePosition!, $record->id, $record->position-1"><span class="fa fa-arrow-up"></span></a>
-                        <a class="down" n:if="$record->position + 1 <= $records->max('position')" n:href="updatePosition!, $record->id, $record->position+1"><span class="fa fa-arrow-down"></span></a>
-                        <a class="photo" n:href="Photo:detail, $record->id"><span class="glyphicon glyphicon-picture"></span></a>
                         <a class="edit" n:href="edit, $record->id"><span class="glyphicon glyphicon-edit"></span></a>
                         <a class="delete" data-delete_name="{$record->title}" n:href="delete, $record->id"><span class="glyphicon glyphicon-remove"></span></a>
                     </div>
-                    <h3><strong>{$record->title}</strong></h3>
-                    {$record->description_list}
-                    <hr />
-                    {$record->description_detail|breaklines|noescape}
+                    <h3>
+                        <strong>{$record->title}</strong>
+                        <div class="time"> 
+                        {if $record->date_from != null && $record->date_to != null}
+                            <time datetime="{$record->date_from}">{$record->date_from|date: 'j. n. Y'}</time> - <time datetime="{$record->date_to}">{$record->date_to|date: 'j. n. Y'}</time>
+                        {elseif $record->date_from != null}
+                            <time datetime="{$record->date_from}">{$record->date_from|date: 'j. n. Y'}</time>
+                        {elseif $record->date_to != null}
+                            <time datetime="{$record->date_to}">{$record->date_to|date: 'j. n. Y'}</time>
+                        {/if}
+                        </div>
+                    </h3>
+                    {$record->subtitle}
+                    <hr class="thin" />
+                    {$record->description|breaklines|noescape}
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -46,7 +53,7 @@
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
-            $('#snippet--artworks').on('click', '.delete', function (event) {
+            $('#snippet--news').on('click', '.delete', function (event) {
                 var invoker = this;
                 var delete_name = $(invoker).data('delete_name');
                 if(delete_name == undefined) {
@@ -58,7 +65,7 @@
 
                 event.preventDefault();
                 swal({
-                    title: "Opravdu artwork" + delete_name +"smazat?",
+                    title: "Opravdu novinku" + delete_name +"smazat?",
                     text: "Tato operace je nevratná!",
                     type: "warning",
                     showCancelButton: true,
@@ -71,10 +78,10 @@
                         function (payload) { 
                             $.nette.success(payload);
                             if(payload.success) {
-                                swal("Smazáno!", "Artwork byl smazán", "success");
+                                swal("Smazáno!", "Novinka byla smazána", "success");
                             }
                             else {
-                                swal("Chyba!", "Artwork se nepodařilo smazat", "error");
+                                swal("Chyba!", "Novinku se nepodařilo smazat", "error");
                             }
                         }
                     );

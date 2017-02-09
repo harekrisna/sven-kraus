@@ -1,20 +1,20 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 	<title>NEWS || Sven Kraus</title>
-	<meta name="keywords" content="">
-	<meta name="description" content="">
-	<meta name="author" content="Sven Kra.us">
-    <meta property="og:title" content="Sven Kra.us">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="../index.html">
-    <meta property="og:image" content="../common/img/ogp.jpg">
-    <meta property="og:site_name" content="Sven Kra.us">
-    <meta property="og:description" content="">
-	<link rel="shortcut icon" href="../common/img/favicon.ico">
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta name="author" content="Sven Kra.us" />
+    <meta property="og:title" content="Sven Kra.us" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="../index.html" />
+    <meta property="og:image" content="../common/img/ogp.jpg" />
+    <meta property="og:site_name" content="Sven Kra.us" />
+    <meta property="og:description" content="" />
+	<link rel="shortcut icon" href="../common/img/favicon.ico" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="common/img/apple-touch-icon-144-precomposed.png">
 	<link href='https://fonts.googleapis.com/css?family=Unica+One|Josefin+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
 	<!--[if lt IE 9]>
@@ -52,62 +52,26 @@
 <div id="contents-wrap">
 		<div id="contents">
 			<div id="news" class="content flow-grid">
+				{foreach $news as $new}
 				<div class="entry">
-					<a href="news/33_zen/index.html">　
+					<a href="news/{$new['folder']}/index.html">　
 						<div class="thumb" data-original-width="400" data-original-height="248">
-							<img src="news/33_zen/33_zen-praha-web.jpg" alt="33_zen-praha-web.jpg">
+							<img src="news/{$new['folder']}/{$new['photo_file']}" alt="{$new['photo_file']}">
 						</div>
 						<div class="meta">
-							<div class="date">2016-11-01 00:00:00</div>
-							<h2 class="title">ZEN</h2>
+							<div class="date">{$new['date_from']}</div>
+							<h2 class="title">{$new['title']}</h2>
 						</div>
 						<div class="body">
-							<h2 class="title">ZEN<br>
-							shodo and zenga exhibition<br>
-							2016-12-12 00:00:00
+							<h2 class="title">{$new['title']}<br>
+							{$new['subtitle']}<br>
+							{$new['date_to']}
 							</h2>
-							<p>Dlouha 2, Old Town Square, Prague</p>
+							<p>{$new['description']}</p>
 						</div>
 					</a>
 				</div>
-				<div class="entry">
-					<a href="news/34_yume/index.html">　
-						<div class="thumb" data-original-width="400" data-original-height="248">
-							<img src="news/34_yume/34_yume.jpg" alt="34_yume.jpg">
-						</div>
-						<div class="meta">
-							<div class="date">2016-11-07 00:00:00</div>
-							<h2 class="title">YUME</h2>
-						</div>
-						<div class="body">
-							<h2 class="title">YUME<br>
-							shodo exhibition<br>
-							2016-12-17 00:00:00
-							</h2>
-							<p>Kounicova 23, Brno</p>
-						</div>
-					</a>
-				</div>
-				<div class="entry">
-					<a href="news/35_nazev/index.html">　
-						<div class="thumb" data-original-width="400" data-original-height="248">
-							<img src="news/35_nazev/35_DSC-0030.jpeg" alt="35_DSC-0030.jpeg">
-						</div>
-						<div class="meta">
-							<div class="date">2017-02-01 00:00:00</div>
-							<h2 class="title">Název</h2>
-						</div>
-						<div class="body">
-							<h2 class="title">Název<br>
-							Podtitul<br>
-							2017-02-02 00:00:00
-							</h2>
-							<p>Popis v detailu
-na dva řádky
-nebo 3</p>
-						</div>
-					</a>
-				</div>
+				{/foreach}
 				<script type="text/javascript" src="../common/js/flow_grid_init.js"></script>
 			</div>
 		</div>
