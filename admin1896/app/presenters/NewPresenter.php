@@ -88,7 +88,7 @@ class NewPresenter extends BasePresenter {
 	public function actionGenerateToWeb() {
 		$news = $this->model->findAll()->order('date_from ASC');
 		$main_folder = "../../news";
-		$news_folder = $main_folder."/news";
+		$news_folder = $main_folder."/news/";
 		$latte = new Latte\Engine;
 
 		FileSystem::delete($news_folder);
@@ -105,7 +105,7 @@ class NewPresenter extends BasePresenter {
 
 		foreach ($news as $new) {
 			$position++;
-			$new_folder = $news_folder."/".Strings::padLeft($new->id, 2, '0')."_".Strings::webalize($new->title);
+			$new_folder = $news_folder."/".Strings::webalize($new->title);
 			FileSystem::createDir($new_folder);
 
 			$new_photo = "./images/news/".$new->photo_file;
@@ -115,14 +115,14 @@ class NewPresenter extends BasePresenter {
 				$previous_new_folder = null;	
 			}
 			else {
-				$previous_new_folder = "../".Strings::padLeft($news_array[$position-1]->id, 2, '0')."_".Strings::webalize($news_array[$position-1]->title);
+				$previous_new_folder = "../".Strings::webalize($news_array[$position-1]->title);
 			}
 
 			if($position == count($news_array)) {
 				$next_new_folder = null;
 			}
 			else {
-				$next_new_folder = "../".Strings::padLeft($news_array[$position+1]->id, 2, '0')."_".Strings::webalize($news_array[$position+1]->title);	
+				$next_new_folder = "../".Strings::webalize($news_array[$position+1]->title);	
 			}
 
 			$params = array(
@@ -139,7 +139,7 @@ class NewPresenter extends BasePresenter {
 
 		foreach ($news as $new) {
 			$new_item = $new->toArray();
-			$new_item['folder'] = Strings::padLeft($new->id, 2, '0')."_".Strings::webalize($new->title);
+			$new_item['folder'] = Strings::webalize($new->title);
 			$news_list[] = $new_item;
 		}
 

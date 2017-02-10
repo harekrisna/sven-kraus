@@ -3365,6 +3365,7 @@ textarea.focus,
 
 
 #news-detail #info{
+	font-family: "Josefin Sans";
 	font-size: 1.3em;
 	padding: 20px 15%;
 	margin-bottom: 50px;
