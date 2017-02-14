@@ -10,21 +10,21 @@
 	<meta name="author" content="sven Kraus" />
     <meta property="og:title" content="Sven Kraus" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="../../../../index.html" />
-    <meta property="og:image" content="../../../../common/img/ogp.jpg" />
+    <meta property="og:url" content="../../../index.html" />
+    <meta property="og:image" content="../../../common/img/ogp.jpg" />
     <meta property="og:site_name" content="Sven Kraus" />
     <meta property="og:description" content="" />
-	<link rel="shortcut icon" href="../../../../common/img/favicon.ico" />
+	<link rel="shortcut icon" href="../../../common/img/favicon.ico" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../../../common/img/apple-touch-icon-144-precomposed.png">
 	<link href='https://fonts.googleapis.com/css?family=Unica+One|Josefin+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
 	<!--[if lt IE 9]>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-	<link rel="stylesheet" href="../../../../common/css/style.css">
+	<link rel="stylesheet" href="../../../common/css/style.css">
     <!--Google Analytics-->
-	<script src="../../../../common/js/libs.js" type="text/javascript"></script>
-	<script src="../../../../common/js/common.js" type="text/javascript"></script>
+	<script src="../../../common/js/libs.js" type="text/javascript"></script>
+	<script src="../../../common/js/common.js" type="text/javascript"></script>
 </head>
 <body id="sven" class="sub">
 <noscript>
@@ -74,19 +74,27 @@
 								<li><img src="{$new->photo_file}" alt="{$new->title}"></li>
 							</ul>
 						</div>
-						<script type="text/javascript" src="../../../../../common/js/news_detail.js"></script>
+						<script type="text/javascript" src="../../../common/js/news_detail.js"></script>
 					</div>
 					<div id="info" class="section">
 						<h1 class="title wfont">{$new->title}<br />
 						{$new->subtitle}</h1>
-						<div class="date wfont">{$new->date_from} - {$new->date_to}</div>
+						<div class="date wfont">
+						{if $new['date_from'] != null && $new['date_to'] != null}
+                            {$new['date_from']|date: 'j M'} - {$new['date_to']|date: 'j M Y'}
+                        {elseif $new['date_from'] != null}
+                            {$new['date_from']|date: 'j M Y'}
+                        {elseif $new['date_to'] != null}
+                            {$new['date_to']|date: 'j M Y'}
+                        {/if}
+						</div>
 						<div class="body"><p>{$new->description|breaklines|noescape}</p></div>
 					</div>
 				</div>
 				<div class="paginate">
 					<a href="{$previous_new_folder == null ? "#" : $previous_new_folder.'/index.html'}" class="previous prevnews"></a>
 					<div class="list">
-					 	<a href="../../../../../index.html" class="close"> </a>
+					 	<a href="../../index.html" class="close"> </a>
 					</div>
 					<a href="{$next_new_folder == null ? "#" : $next_new_folder.'/index.html'}" class="next nextnews"></a>
 				</div>
@@ -100,11 +108,11 @@
 <div id="menu">
 	<nav id="gnavi-links" class="nav-links">
 		<ul class="hover-line-links">
-			<li><a href="../../../../artworks/index.html"><span>artworks</span></a></li>
-			<li><a href="../../../../projects/index.html"><span>workshop</span></a></li>
-			<li><a href="../../../../news/index.html" class="current"><span>news</span></a></li>
-			<li><a href="../../../../profile/index.html"><span>profile</span></a></li>
-			<li><a href="../../../../info/index.html"><span>contact</span></a></li>
+			<li><a href="../../../artworks/index.html"><span>artworks</span></a></li>
+			<li><a href="../../../projects/index.html"><span>workshop</span></a></li>
+			<li><a href="../../../news/index.html" class="current"><span>news</span></a></li>
+			<li><a href="../../../profile/index.html"><span>profile</span></a></li>
+			<li><a href="../../../info/index.html"><span>contact</span></a></li>
 			<li><a href="https://www.facebook.com/sven.kraus.756?fref=ts" class="external"><span><i class="icon_fb"></i></span></a></li>
 		</ul>
 	</nav>

@@ -59,13 +59,27 @@
 							<img src="news/{$new['folder']}/{$new['photo_file']}" alt="{$new['photo_file']}">
 						</div>
 						<div class="meta">
-							<div class="date">{$new['date_from']}</div>
+							<div class="date">
+							{if $new['date_from'] != null && $new['date_to'] != null}
+	                            {$new['date_from']|date: 'j M'} - {$new['date_to']|date: 'j M Y'}
+	                        {elseif $new['date_from'] != null}
+	                            {$new['date_from']|date: 'j M Y'}
+	                        {elseif $new['date_to'] != null}
+	                            {$new['date_to']|date: 'j M Y'}
+	                        {/if}
+							</div>
 							<h2 class="title">{$new['title']}</h2>
 						</div>
 						<div class="body">
 							<h2 class="title">{$new['title']}<br>
 							{$new['subtitle']}<br>
-							{$new['date_to']}
+							{if $new['date_from'] != null && $new['date_to'] != null}
+	                            {$new['date_from']|date: 'j M'} - {$new['date_to']|date: 'j M Y'}
+	                        {elseif $new['date_from'] != null}
+	                            {$new['date_from']|date: 'j M Y'}
+	                        {elseif $new['date_to'] != null}
+	                            {$new['date_to']|date: 'j M Y'}
+	                        {/if}
 							</h2>
 							<p>{$new['description']}</p>
 						</div>

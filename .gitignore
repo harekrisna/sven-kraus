@@ -1,7 +1,6 @@
 .DS_Store
 artworks/*
 artworks/product/*
-news/*
 news/news/*
 admin1896/app/config/config.local.neon
 admin1896/log/*
