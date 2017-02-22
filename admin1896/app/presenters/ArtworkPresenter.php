@@ -82,7 +82,7 @@ class ArtworkPresenter extends BasePresenter {
 					->update(['position' => new SqlLiteral("position - 1")]);
 
 		if($record->photos_folder != "") {
-			FileSystem::delete("./images/photos/".$record->photos_folder);
+			FileSystem::delete("./images/artworks/".$record->photos_folder);
 		}
 		
 		$this->delete_success = $this->model->delete($id);
@@ -127,7 +127,7 @@ class ArtworkPresenter extends BasePresenter {
 			$artwork_folder = $artworks_folder."/".Strings::padLeft($artwork->position, 2, '0')."_".Strings::webalize($artwork->title);
 			FileSystem::createDir($artwork_folder);
 
-			$photos = "./images/photos/".$artwork->photos_folder."/photos/";
+			$photos = "./images/artworks/".$artwork->photos_folder."/photos/";
 			FileSystem::copy($photos, $artwork_folder);
 
 			$previsous_artwork = $this->model->findBy(['position' => $artwork->position - 1])
