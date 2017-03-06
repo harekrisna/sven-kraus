@@ -4,18 +4,18 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width,initial-scale=1.0" />
-	<title>ARTWORKS || SVEN KRAUS</title>
+	<title>CONTACT || Sven Kraus</title>
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
 	<meta name="author" content="Sven Kraus" />
-    <meta property="og:title" content="Sven Kra.us" />
+    <meta property="og:title" content="Sven Kraus" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="../index.html" />
     <meta property="og:image" content="../common/img/ogp.jpg" />
     <meta property="og:site_name" content="Sven Kra.us" />
     <meta property="og:description" content="" />
 	<link rel="shortcut icon" href="../common/img/favicon.ico" />
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../common/img/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="common/img/apple-touch-icon-144-precomposed.png">
 	<link href='https://fonts.googleapis.com/css?family=Unica+One|Josefin+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
 	<!--[if lt IE 9]>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -43,7 +43,7 @@
 						<span class="bar"></span>
 						<span class="bar"></span>
 					</span>
-					<span class="label">artworks</span>
+					<span class="label">contact</span>
 				</a>
 			</div>
 		</div>
@@ -51,38 +51,41 @@
 </div>
 	<div id="contents-wrap">
 		<div id="contents">
-			<div id="portfolio" class="content flow-grid">
-				{foreach $artworks as $artwork}
-				<div class="entry">
-					<a href="product/{$artwork['folder']}/index.html">　
-						<div class="thumb" data-original-width="400" data-original-height="{if $artwork['photo_preview_height']}{$artwork['photo_preview_height']}{else}266{/if}">
-							<img src="product/{$artwork['folder']}/{if $artwork['list_photo'] != false}{$artwork['list_photo']->file}{/if}" alt="sho">
-						</div>
-						<div class="meta">
-							<div class="client">{$artwork['description_list']}</div>
-							<h2 class="title">{$artwork['title']}</h2>
-						</div>
-					</a>
-				</div>	
-				{/foreach}
-				<script type="text/javascript" src="../common/js/flow_grid_init.js"></script>
+			<div id="profile" class="content">
+				<div class="container">
+					<div class="sections">
+					 <div class="section section-tabled">
+	
+	<div class="tabled-td wfont">
+		<div lang="en">
+			<p>
+				For general information, your comments or comission of custom-made artworks you may contact Sven directly on his fb page <a href="https://www.facebook.com/sven.kraus.756?fref=ts">here</a>.<br><br>
+
+				If you are interested in arranging an exhibition or another kind of event at your place, please do not hesitate to write us on <br><a href="mailto:info@sven-kra.us">info@sven-kra.us</a>
+
+				<br><br>
+				*To help us fit into your schedule, your requests are best to be sent 2 - 3 months prior to planned date of the event, please.
+			</p>
+		</div>
+	</div>
+</div>
+					</div>
+					
+				</div>
 			</div>
 		</div>
 	</div>
-
-
 </div>
 <div id="menu">
 	<nav id="gnavi-links" class="nav-links">
 		<ul class="hover-line-links">
-			<li><a href="index.html" class="current"><span>artworks</span></a></li>
+			<li><a href="../artworks/index.html"><span>artworks</span></a></li>
 			<li><a href="../news/index.html"><span>news</span></a></li>
 			<li><a href="../profile/index.html"><span>profile</span></a></li>
-			<li><a href="../info/index.html"><span>contact</span></a></li>
+			<li><a href="index.html" class="current"><span>contact</span></a></li>
 			<li><a href="https://www.facebook.com/sven.kraus.756?fref=ts" class="external"><span><i class="icon_fb"></i></span></a></li>
 		</ul>
 	</nav>
-
 </div>
 <div id="footer">
 	<div class="container">

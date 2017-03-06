@@ -48,7 +48,8 @@ class NewPresenter extends BasePresenter {
 	}
 
 	public function renderList() {
-        $this->template->records = $this->model->findAll();
+        $this->template->records = $this->model->findAll()
+        									   ->order('date_from DESC');
 
         if($this->isAjax()) {
         	$this->redrawControl('news');
@@ -86,7 +87,9 @@ class NewPresenter extends BasePresenter {
 	}	
 
 	public function actionGenerateToWeb() {
-		$news = $this->model->findAll()->order('date_from ASC');
+		$news = $this->model->findAll()
+							->order('date_from DESC');
+							
 		$main_folder = "../../news";
 		$news_folder = $main_folder."/news/";
 		$latte = new Latte\Engine;
