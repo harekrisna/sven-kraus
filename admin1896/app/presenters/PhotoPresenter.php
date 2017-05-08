@@ -18,7 +18,7 @@ final class PhotoPresenter extends BasePresenter {
      /** @var object */
     private $model;   	    
     
-    private $photos_dir = "./images/photos";
+    private $photos_dir = "./images/artworks";
     
     protected function startup()  {
         parent::startup();
@@ -38,7 +38,7 @@ final class PhotoPresenter extends BasePresenter {
 		$artwork = $this->artwork
 		   		        ->get($artwork_id);
 		
-		$this->template->images_dir_count = Finder::findFiles('*.jpg', '*.jpeg', '*.png', '*.gif')->in("./images/photos/{$artwork->photos_folder}/photos")->count();
+		$this->template->images_dir_count = Finder::findFiles('*.jpg', '*.jpeg', '*.png', '*.gif')->in($this->photos_dir."/{$artwork->photos_folder}/photos")->count();
 		$this->template->artwork_photos_folder = $this->photos_dir."/".$artwork->photos_folder;
 		
 		$this->template->photos = $this->photo
